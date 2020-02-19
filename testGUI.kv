@@ -1,0 +1,70 @@
+#:kivy 1.9.0
+
+
+
+<FLoatLayout>:
+    #This puts a rectangle the size of the window in the window and places it behind all other widgets, with a color determined by RGBA values
+    #alternative to the apparently non-working Window.clearcolor call in our corresponding .py file
+    
+    #canvas.before:
+    #    Color:
+    #     rgba: 1, 1, 1, 1
+    #    Rectangle:
+    #        pos: self.pos
+    #        size: self.size
+    
+    Image:
+        source: 'testchart.png'
+        size_hint: 0.55, 0.5
+        pos_hint: {"top": 0.55, "right": 0.55}
+        allow_stretch: True
+        keep_ratio: False
+
+    Button:
+        text: "1d"
+        size_hint: 0.05, 0.05
+        pos_hint: {"right":.30}
+
+    Button:
+        text: "1mo"
+        size_hint: 0.05, 0.05
+        pos_hint: {"right":.35}
+       
+    Button:
+        text: "6mo"
+        size_hint: 0.05, 0.05
+        pos_hint: {"right":.40}
+
+    Button:
+        text: "1yr"
+        size_hint: 0.05, 0.05
+        pos_hint: {"right":.45}
+    Button:
+        text: "5yr"
+        size_hint: 0.05, 0.05
+        pos_hint: {"right":.50}
+
+    Button:
+        text: "Max"
+        size_hint: 0.05, 0.05
+        pos_hint: {"right":.55}
+    Button:
+        text: "BUY STOCK"
+        size_hint: 0.125, 0.05
+        pos_hint: {"right":.125}
+        color: 0, 0, 0, .85
+        background_normal: ''
+        background_color: .3, 1, .4, .85
+    Button:
+        text: "SELL STOCK"
+        size_hint: 0.125, 0.05
+        pos_hint: {"right":.25}
+        color: 0, 0, 0, .85
+        background_normal: ''
+        background_color: 1, .3, .4, .85
+        on_press: root.testFunction()
+    
+    
+
+
+

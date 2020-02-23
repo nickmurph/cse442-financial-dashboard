@@ -1,12 +1,13 @@
 import kivy
 
+from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
-from kivy.app import App
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivy.config import Config
 from kivy.uix.textinput import TextInput
+
 import tkinter as tk
 #import test3
 

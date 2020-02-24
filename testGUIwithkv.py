@@ -44,4 +44,3 @@ class TestGUIApp(App):
 if __name__ == '__main__':
     TestGUIApp().run()
 
-

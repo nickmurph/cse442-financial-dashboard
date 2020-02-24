@@ -35,7 +35,7 @@ def commify_int_to_string(raw_num):
     return raw_num
 
 
-#still need to edit in check and handle for negative numbers
+#still need to add handling for negative numbers
 def format_financial_number(raw_num):
     num_length = get_num_digits_of_int(raw_num)
     if raw_num < 0:

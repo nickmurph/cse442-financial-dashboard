@@ -1,8 +1,13 @@
 import kivy
+
 from kivy.app import App
+from kivy.uix.widget import Widget
+from kivy.uix.popup import Popup
 from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivy.config import Config
+from kivy.uix.textinput import TextInput
+
 import tkinter as tk
 #import test3
 
@@ -26,16 +31,16 @@ class Launch(FloatLayout):
      def testFunction(self):
         print("Executing python code via button is a success")
 
+     def buyCallback(self):
+        print('Successfully Purchased Stock')
+
+     def sellCallback(self):
+        print('Successfully Sold Stock')
+
 class TestGUIApp(App):
     def build(self):
         return Launch()
 
-
-
-
-
-
 if __name__ == '__main__':
     TestGUIApp().run()
-
 

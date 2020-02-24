@@ -20,6 +20,12 @@ row_length = len(msft_monthly_prices)
 col_length = len(msft_monthly_prices.columns)
 print(msft_monthly_prices.iat[row_length-1,3])
 
+print("\n\n")
+
+print("Financials")
+msft_financials = msft.financials
+print(msft_financials)
+
 
 # Use this function to get the live price when a previous and recent call has not already been made for a dataframe with the daily or monthly price data
 # If such a dataframe has already been loaded (eg, msft_monthly_prices above), simply access the latest price in that DF 

@@ -7,6 +7,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivy.config import Config
 from kivy.uix.textinput import TextInput
+from news_links import get_news
 
 import tkinter as tk
 #import test3
@@ -36,6 +37,9 @@ class Launch(FloatLayout):
 
      def sellCallback(self):
         print('Successfully Sold Stock')
+      
+     def refresh_news(self):
+        get_news('apple')
 
 class TestGUIApp(App):
     def build(self):

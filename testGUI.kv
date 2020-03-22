@@ -2,7 +2,7 @@
 
 
 
-<FLoatLayout>:
+<FloatLayout>:
     #This puts a rectangle the size of the window in the window and places it behind all other widgets, with a color determined by RGBA values
     #alternative to the apparently non-working Window.clearcolor call in our corresponding .py file
     
@@ -88,30 +88,6 @@
         pos_hint: {"top": 0.35, "right": 0.45}
         font_size: "20sp"
     Button:
-        text:"Link"
-        pos_hint: {"top": 0.30}
-        size_hint: 0.55,0.05
-    Button:
-        text:"Link2"
-        pos_hint: {"top": 0.25}
-        size_hint: 0.55,0.05
-    Button:
-        text:"Link3"
-        pos_hint: {"top": 0.20}
-        size_hint: 0.55,0.05
-    Button:
-        text:"Link4"
-        pos_hint: {"top": 0.15}
-        size_hint: 0.55,0.05
-    Button:
-        text:"Link5"
-        pos_hint: {"top": 0.10}
-        size_hint: 0.55,0.05
-    Button:
-        text:"Link6"
-        pos_hint: {"top": 0.05}
-        size_hint: 0.55,0.05
-    Button:
         text: "Log In"
         size_hint: 0.1, 0.05
         pos_hint: {"top":.95}
@@ -123,4 +99,21 @@
         hint_text: 'Search Here'
         pos_hint: {"top": .95, "right": 1}
         size_hint: 0.2, 0.05
+    Button:
+        text:"refresh"
+        pos_hint: {"top": 0.2, "right": .55}
+        size_hint: 0.05,0.05
+        on_press: root.refresh_news()
+    Button:
+        text:"Link0"
+        pos_hint: {"top": 0.15}
+        size_hint: 0.55,0.05
+    Button:
+        text:"Link1"
+        pos_hint: {"top": 0.10}
+        size_hint: 0.55,0.05
+    Button:
+        text:"Link2"
+        pos_hint: {"top": 0.05}
+        size_hint: 0.55,0.05
     

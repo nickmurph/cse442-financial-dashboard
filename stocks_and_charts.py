@@ -43,6 +43,12 @@ def set_current_period(period):
     global current_period
     current_period = period
 
+def get_stock_name(tickerSymbol):
+    current_stock = yf.Ticker(tickerSymbol)
+    stock_info_dict = current_stock.info
+    stock_short_name = stock_info_dict.get("shortName")
+    return stock_short_name
+
 
 
 

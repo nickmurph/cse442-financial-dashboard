@@ -8,6 +8,7 @@ import matplotlib.colors as mplcolors
 import numpy as np 
 from pandas.plotting import register_matplotlib_converters
 from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
+from finance_num_formatting import format_financial_number
 
 #print(time.ctime())
 register_matplotlib_converters()

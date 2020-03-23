@@ -32,7 +32,7 @@ def get_news(topic):
         news_list.append(news_articles(ar['title'],ar['url']))
     return news_list
 
-list = get_news('apple')
-for i in range(len(list)):
-    print (i + 1, list[i].title)
-    print (list[i].url, '\n')
+# list = get_news('apple')
+# for i in range(len(list)):
+#     print (i + 1, list[i].title)
+#     print (list[i].url, '\n')

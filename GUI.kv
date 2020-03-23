@@ -14,7 +14,8 @@
     #        size: self.size
     
     Image:
-        source: 'testchart.png'
+        id: chart_image
+        source: 'current_chart.png'
         size_hint: 0.55, 0.5
         pos_hint: {"top": 0.90, "right": 0.55}
         allow_stretch: True
@@ -35,30 +36,32 @@
         text: "1d"
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.30}
-
+        on_press: root.clicked_one_day_button()
     Button:
         text: "1mo"
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.35}
-       
+        on_press: root.clicked_one_month_button()
     Button:
         text: "6mo"
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.40}
-
+        on_press: root.clicked_six_month_button()
     Button:
         text: "1yr"
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.45}
+        on_press: root.clicked_one_year_button()
     Button:
         text: "5yr"
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.50}
-
+        on_press: root.clicked_five_year_button()
     Button:
         text: "Max"
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.55}
+        on_press: root.clicked_max_time_button()
     Button:
         text: "BUY STOCK"
         size_hint: 0.125, 0.05
@@ -83,10 +86,29 @@
         id: "Sell"
         pos_hint: {"top": 0.40, "right": .25}
         size_hint: 0.125,0.05
-    Label:
-        text: "NEWS"
-        pos_hint: {"top": 0.35, "right": 0.45}
-        font_size: "20sp"
+    Button:
+        text:"refresh"
+        pos_hint: {"top": 0.20, "right": .55}
+        size_hint: 0.05,0.05
+        on_release: root.refresh_news()
+    Button:
+        id: "link0"
+        text:"Link0"
+        pos_hint: {"top": 0.15}
+        size_hint: 0.55,0.05
+        on_press: root.go_to_link0()
+    Button:
+        id: "link1"
+        text:"Link1"
+        pos_hint: {"top": 0.10}
+        size_hint: 0.55,0.05
+        on_press: root.go_to_link1()
+    Button:
+        id: "link2"
+        text:"Link2"
+        pos_hint: {"top": 0.05}
+        size_hint: 0.55,0.05
+        on_press: root.go_to_link2()
     Button:
         text: "Log In"
         size_hint: 0.1, 0.05
@@ -94,25 +116,25 @@
         color: 0, 0, 0, .85
         background_normal: ''
         background_color: 0, 1, 0, .85
-    TextInput:
-        id: input
+    CustomizedTextInput:
+        id: input_field
         hint_text: 'Search Here'
         pos_hint: {"top": .95, "right": 1}
         size_hint: 0.2, 0.05
+        multiline: False
+        keyboard_suggestions: True
+        #suggestion_text: 'test suggestion'
+        on_text_validate: root.enter_stock_ticker()
+
+
+<MyPopup@Popup>:
+    title: "Error Occured!"
+    id: test_popup
+    auto_dismiss: False
+    size_hint: 0.40, 0.45
+    pos_hint: {"top": 0.7, "right": 0.7}
+
     Button:
-        text:"refresh"
-        pos_hint: {"top": 0.20, "right": .55}
-        size_hint: 0.05,0.05
-    Button:
-        text:"Link0"
-        pos_hint: {"top": 0.15}
-        size_hint: 0.55,0.05
-    Button:
-        text:"Link1"
-        pos_hint: {"top": 0.10}
-        size_hint: 0.55,0.05
-    Button:
-        text:"Link2"
-        pos_hint: {"top": 0.05}
-        size_hint: 0.55,0.05
-    
+        text: "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later."
+        on_release: test_popup.dismiss() 
+        on_press: root.dismiss()

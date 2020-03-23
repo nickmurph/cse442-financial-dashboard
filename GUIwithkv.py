@@ -1,4 +1,5 @@
 import kivy
+import time
 
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -7,10 +8,23 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivy.config import Config
 from kivy.uix.textinput import TextInput
+
+from kivy.factory import Factory
+
+from stocks_and_charts import build_chart
+from stocks_and_charts import set_current_stock
+from stocks_and_charts import chart_timeframes
+from stocks_and_charts import set_current_timeframe
+from stocks_and_charts import chart_periods
+from stocks_and_charts import set_current_period
+from stocks_and_charts import get_stock_name
+
 from news_links import get_news
 
 import tkinter as tk
-#import test3
+from tkinter import messagebox
+
+import webbrowser
 
 #This allows the window to be resizable by the user
 Config.set('graphics', 'resizable', True)
@@ -19,6 +33,7 @@ Config.set('graphics', 'resizable', True)
 Tkinter_instance = tk.Tk()
 screen_res_width = Tkinter_instance.winfo_screenwidth()
 screen_res_height = Tkinter_instance.winfo_screenheight()
+Tkinter_instance.withdraw()
 #We then use the screen size to help us set the kivy window size (at a ~2/3 ratio for width and height)
 Window.size = (screen_res_width/1.5, screen_res_height/1.5)
 Window.minimum_height = (screen_res_height/1.5)
@@ -27,25 +42,105 @@ Window.minimum_width = (screen_res_width/1.5)
 #Should turn the background all white but not working; alternative method in .kv file
 #Window.clearcolor = (1, 1 ,1, 1)
 
+news_articles = []
+current_stock_name = "Microsoft"
+news_articles = get_news(current_stock_name)
 
 class Launch(FloatLayout):
-     def testFunction(self):
-        print("Executing python code via button is a success")
+   def testFunction(self):
+      print("Executing python code via button is a success")
 
-     def buyCallback(self):
-        print('Successfully Purchased Stock')
+   def buyCallback(self):
+      print('Successfully Purchased Stock')
 
-     def sellCallback(self):
-        print('Successfully Sold Stock')
-      
-     def refresh_news(self):
-        get_news('apple')
+   def sellCallback(self):
+      print('Successfully Sold Stock')
 
-class TestGUIApp(App):
+   def clicked_one_day_button(self):
+      set_current_timeframe(chart_timeframes[0])
+      set_current_period(chart_periods[0])
+      build_chart()
+      self.ids.chart_image.reload()
+
+   def clicked_one_month_button(self):
+      set_current_timeframe(chart_timeframes[1])
+      set_current_period(chart_periods[1])
+      build_chart()
+      self.ids.chart_image.reload()
+
+   def clicked_six_month_button(self):
+      set_current_timeframe(chart_timeframes[2])
+      set_current_period(chart_periods[2])
+      build_chart()
+      self.ids.chart_image.reload()
+   
+   def clicked_one_year_button(self):
+      set_current_timeframe(chart_timeframes[3])
+      set_current_period(chart_periods[3])
+      build_chart()
+      self.ids.chart_image.reload()
+   
+   def clicked_five_year_button(self):
+      set_current_timeframe(chart_timeframes[4])
+      set_current_period(chart_periods[4])
+      build_chart()
+      self.ids.chart_image.reload()
+   
+   def clicked_max_time_button(self):
+      set_current_timeframe(chart_timeframes[5])
+      set_current_period(chart_periods[5])
+      build_chart()
+      self.ids.chart_image.reload()
+   
+   def enter_stock_ticker(self):
+      entered_text = self.ids.input_field.text
+      #print(entered_text)
+      try:
+         set_current_stock(entered_text)
+         global current_stock_name
+         current_stock_name = get_stock_name(entered_text)
+         self.ids.chart_image.reload()
+      except:
+         #Factory.MyPopup().open()
+         messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
+   
+   def refresh_news(self):
+      global news_articles
+      news_articles = get_news(current_stock_name)
+      for i in range(len(news_articles)):
+         print (i + 1, news_articles[i].title)
+         print (news_articles[i].url, '\n')
+   
+   def go_to_link0(self):
+      webbrowser.open(news_articles[0].url)
+
+   def go_to_link1(self):
+      webbrowser.open(news_articles[1].url)
+
+   def go_to_link2(self):
+      webbrowser.open(news_articles[2].url)
+
+
+class GUIApp(App):
     def build(self):
+        self.title = 'MnMs Finance Tool'
         return Launch()
 
-if __name__ == '__main__':
-    TestGUIApp().run()
 
+class CustomizedTextInput(TextInput):
+   
+   '''
+   Leave this commented out. Will eventually be used as part of an autosuggestion feature for the search bar
+    def insert_text(self, substring, from_undo=False):
+      #print(Launch.ids.input_field.text)
+      if substring.endswith('a') or substring.endswith('A'):
+         new_string = substring.upper()
+         new_string = 'new_string' + 'APL'
+         return super(CustomizedTextInput, self).insert_text(new_string, from_undo=from_undo)
+      else:
+         return super(CustomizedTextInput, self).insert_text(substring, from_undo=from_undo)
+   '''
+
+if __name__ == '__main__':
+    GUIApp().run()
 

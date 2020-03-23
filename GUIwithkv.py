@@ -43,7 +43,7 @@ Window.minimum_width = (screen_res_width/1.5)
 #Window.clearcolor = (1, 1 ,1, 1)
 
 news_articles = []
-current_stock_name = "Microsoft"
+current_stock_name = "microsoft"
 news_articles = get_news(current_stock_name)
 
 class Launch(FloatLayout):
@@ -97,12 +97,18 @@ class Launch(FloatLayout):
       #print(entered_text)
       try:
          set_current_stock(entered_text)
-         global current_stock_name
-         current_stock_name = get_stock_name(entered_text)
          self.ids.chart_image.reload()
       except:
          #Factory.MyPopup().open()
          messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
+   
+   def change_current_stock(self):
+         entered_text = self.ids.input_field.text
+         global current_stock_name
+         current_stock_name = get_stock_name(entered_text)
+         print (current_stock_name)
+         global news_articles
+         news_articles = get_news(current_stock_name)
    
    def refresh_news(self):
       global news_articles
@@ -110,16 +116,24 @@ class Launch(FloatLayout):
       for i in range(len(news_articles)):
          print (i + 1, news_articles[i].title)
          print (news_articles[i].url, '\n')
-   
+
    def go_to_link0(self):
-      webbrowser.open(news_articles[0].url)
+      try:
+         webbrowser.open(news_articles[0].url)
+      except:
+         messagebox.showinfo("No articles")
 
    def go_to_link1(self):
-      webbrowser.open(news_articles[1].url)
+      try:
+         webbrowser.open(news_articles[1].url)
+      except:
+         messagebox.showinfo("No articles")
 
    def go_to_link2(self):
-      webbrowser.open(news_articles[2].url)
-
+      try:
+         webbrowser.open(news_articles[2].url)
+      except:
+         messagebox.showinfo("No articles")
 
 class GUIApp(App):
     def build(self):

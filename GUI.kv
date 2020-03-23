@@ -93,19 +93,19 @@
         on_release: root.refresh_news()
     Button:
         id: "link0"
-        text:"Link0"
+        text: "Article"
         pos_hint: {"top": 0.15}
         size_hint: 0.55,0.05
         on_press: root.go_to_link0()
     Button:
         id: "link1"
-        text:"Link1"
+        text:"Article"
         pos_hint: {"top": 0.10}
         size_hint: 0.55,0.05
         on_press: root.go_to_link1()
     Button:
         id: "link2"
-        text:"Link2"
+        text:"Article"
         pos_hint: {"top": 0.05}
         size_hint: 0.55,0.05
         on_press: root.go_to_link2()
@@ -125,6 +125,7 @@
         keyboard_suggestions: True
         #suggestion_text: 'test suggestion'
         on_text_validate: root.enter_stock_ticker()
+        on_text_validate: root.change_current_stock()
 
 
 <MyPopup@Popup>:

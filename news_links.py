@@ -25,7 +25,7 @@ class news_articles:
 #     print(desc[i])
 
 def get_news(topic):
-    news = newsapi.get_everything(q = topic, sources= 'bloomberg', sort_by='relevancy', page = 1)
+    news = newsapi.get_everything(q = topic, sources= 'bloomberg,fortune,the-wall-street-journal', sort_by='relevancy', page = 1)
     news_list = []
     articles = news['articles']
     for ar in articles:

@@ -1,6 +1,5 @@
 import kivy
 import time
-
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
@@ -8,9 +7,7 @@ from kivy.uix.floatlayout import FloatLayout
 from kivy.core.window import Window
 from kivy.config import Config
 from kivy.uix.textinput import TextInput
-
 from kivy.factory import Factory
-
 from stocks_and_charts import build_chart
 from stocks_and_charts import set_current_stock
 from stocks_and_charts import chart_timeframes
@@ -157,4 +154,3 @@ class CustomizedTextInput(TextInput):
 
 if __name__ == '__main__':
     GUIApp().run()
-

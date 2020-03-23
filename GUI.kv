@@ -1,4 +1,5 @@
 #:kivy 1.9.0
+#:import Factory kivy.factory.Factory
 
 
 
@@ -6,12 +7,12 @@
     #This puts a rectangle the size of the window in the window and places it behind all other widgets, with a color determined by RGBA values
     #alternative to the apparently non-working Window.clearcolor call in our corresponding .py file
     
-    #canvas.before:
-    #    Color:
-    #     rgba: 1, 1, 1, 1
-    #    Rectangle:
-    #        pos: self.pos
-    #        size: self.size
+    canvas.before:
+        Color:
+            rgba: 0,0,0,0
+        Rectangle:
+            pos: self.pos
+            size: self.size
     
     Image:
         id: chart_image
@@ -42,6 +43,7 @@
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.35}
         on_press: root.clicked_one_month_button()
+       
     Button:
         text: "6mo"
         size_hint: 0.05, 0.05
@@ -82,10 +84,16 @@
         id: "Purchase"
         pos_hint: {"top": 0.40, "right": .125}
         size_hint: 0.125, .05
+        multiline: False
     TextInput:
         id: "Sell"
         pos_hint: {"top": 0.40, "right": .25}
         size_hint: 0.125,0.05
+        multiline: False
+    Label:
+        text: "NEWS"
+        pos_hint: {"top": 0.35, "right": 0.45}
+        font_size: "20sp"
     Button:
         text:"refresh"
         pos_hint: {"top": 0.20, "right": .55}
@@ -139,3 +147,6 @@
         text: "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later."
         on_release: test_popup.dismiss() 
         on_press: root.dismiss()
+
+
+

@@ -124,6 +124,7 @@
         color: 0, 0, 0, .85
         background_normal: ''
         background_color: 0, 1, 0, .85
+        on_release: Factory.CustomPopup().open()
     CustomizedTextInput:
         id: input_field
         hint_text: 'Search Here'
@@ -135,6 +136,63 @@
         on_text_validate: root.enter_stock_ticker()
         on_text_validate: root.change_current_stock()
 
+<CustomPopup@Popup>:
+    title: 'Login'
+    auto_dismiss: False
+
+    BoxLayout
+        id: login_layout
+        orientation: 'vertical'
+        padding: [10,20,10,20]
+        spacing: 10
+
+        Label:
+            text: 'Login Page'
+            font_size: 28
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: 'Username'
+                font_size: 18
+                halign: 'left'
+                text_size: root.width-20, 20
+
+            TextInput:
+                id: login
+                multiline:False
+                font_size: 16
+
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'Password'
+                halign: 'left'
+                font_size: 18
+                text_size: root.width-20, 20
+
+            TextInput:
+                id: password
+                multiline:False
+                password:True
+                font_size: 16
+
+        Button:
+            text: 'Login'
+            font_size: 24
+
+            on_press: root.login_btn(login.text, password.text)
+
+        Button:
+            text: 'Cancel'
+            font_size: 24
+            on_press: root.cancel_btn()
+
+        Button:
+            text: 'Create Username'
+            font_size: 24
+            on_press: root.create_name(login.text, password.text)
 
 <MyPopup@Popup>:
     title: "Error Occured!"

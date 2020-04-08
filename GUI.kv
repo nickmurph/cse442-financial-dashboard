@@ -3,7 +3,7 @@
 
 
 
-<FLoatLayout>:
+<FloatLayout>:
     #This puts a rectangle the size of the window in the window and places it behind all other widgets, with a color determined by RGBA values
     #alternative to the apparently non-working Window.clearcolor call in our corresponding .py file
     
@@ -21,24 +21,19 @@
         pos_hint: {"top": 0.90, "right": 0.55}
         allow_stretch: True
         keep_ratio: False
+
     Image:
-        source: "financial_data_cropped.png"
-        size_hint: 0.40, 0.45
+        source: "financial_data.png"
+        size_hint: 0.40, 0.75
         pos_hint: {"top": 0.90, "right": 1}
         allow_stretch: True
         keep_ratio: False
-    Image:
-        source: "financial_data_cropped.png"
-        size_hint: 0.40, 0.45
-        pos_hint: {"top": 0.45, "right": 1}
-        allow_stretch: True
-        keep_ratio: False
+
     Button:
         text: "1d"
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.30}
         on_press: root.clicked_one_day_button()
-
     Button:
         text: "1mo"
         size_hint: 0.05, 0.05
@@ -50,7 +45,10 @@
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.40}
         on_press: root.clicked_six_month_button()
+<<<<<<< HEAD
+=======
 
+>>>>>>> miren_sprint2
     Button:
         text: "1yr"
         size_hint: 0.05, 0.05
@@ -61,13 +59,11 @@
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.50}
         on_press: root.clicked_five_year_button()
-
     Button:
         text: "Max"
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.55}
         on_press: root.clicked_max_time_button()
-
     Button:
         text: "BUY STOCK"
         size_hint: 0.125, 0.05
@@ -99,29 +95,28 @@
         pos_hint: {"top": 0.35, "right": 0.45}
         font_size: "20sp"
     Button:
-        text:"Link"
-        pos_hint: {"top": 0.30}
-        size_hint: 0.55,0.05
+        text:"refresh"
+        pos_hint: {"top": 0.20, "right": .55}
+        size_hint: 0.05,0.05
+        on_release: root.refresh_news()
     Button:
-        text:"Link2"
-        pos_hint: {"top": 0.25}
-        size_hint: 0.55,0.05
-    Button:
-        text:"Link3"
-        pos_hint: {"top": 0.20}
-        size_hint: 0.55,0.05
-    Button:
-        text:"Link4"
+        id: "link0"
+        text: "Article"
         pos_hint: {"top": 0.15}
         size_hint: 0.55,0.05
+        on_press: root.go_to_link0()
     Button:
-        text:"Link5"
+        id: "link1"
+        text:"Article"
         pos_hint: {"top": 0.10}
         size_hint: 0.55,0.05
+        on_press: root.go_to_link1()
     Button:
-        text:"Link6"
+        id: "link2"
+        text:"Article"
         pos_hint: {"top": 0.05}
         size_hint: 0.55,0.05
+        on_press: root.go_to_link2()
     Button:
         text: "Log In"
         size_hint: 0.1, 0.05
@@ -138,6 +133,7 @@
         keyboard_suggestions: True
         #suggestion_text: 'test suggestion'
         on_text_validate: root.enter_stock_ticker()
+        on_text_validate: root.change_current_stock()
 
 
 <MyPopup@Popup>:
@@ -151,7 +147,3 @@
         text: "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later."
         on_release: test_popup.dismiss() 
         on_press: root.dismiss()
-
-
-
-

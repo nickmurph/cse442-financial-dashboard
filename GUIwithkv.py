@@ -14,10 +14,14 @@ from stocks_and_charts import chart_timeframes
 from stocks_and_charts import set_current_timeframe
 from stocks_and_charts import chart_periods
 from stocks_and_charts import set_current_period
+from stocks_and_charts import get_stock_name
+
+from news_links import get_news
+
 import tkinter as tk
 from tkinter import messagebox
 
-
+import webbrowser
 
 #This allows the window to be resizable by the user
 Config.set('graphics', 'resizable', True)
@@ -35,6 +39,9 @@ Window.minimum_width = (screen_res_width/1.5)
 #Should turn the background all white but not working; alternative method in .kv file
 #Window.clearcolor = (1, 1 ,1, 1)
 
+news_articles = []
+current_stock_name = "microsoft"
+news_articles = get_news(current_stock_name)
 
 class Launch(FloatLayout):
    def testFunction(self):
@@ -91,10 +98,39 @@ class Launch(FloatLayout):
       except:
          #Factory.MyPopup().open()
          messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
-
    
+   def change_current_stock(self):
+         entered_text = self.ids.input_field.text
+         global current_stock_name
+         current_stock_name = get_stock_name(entered_text)
+         print (current_stock_name)
+         global news_articles
+         news_articles = get_news(current_stock_name)
+   
+   def refresh_news(self):
+      global news_articles
+      news_articles = get_news(current_stock_name)
+      for i in range(len(news_articles)):
+         print (i + 1, news_articles[i].title)
+         print (news_articles[i].url, '\n')
 
+   def go_to_link0(self):
+      try:
+         webbrowser.open(news_articles[0].url)
+      except:
+         messagebox.showinfo("No articles")
 
+   def go_to_link1(self):
+      try:
+         webbrowser.open(news_articles[1].url)
+      except:
+         messagebox.showinfo("No articles")
+
+   def go_to_link2(self):
+      try:
+         webbrowser.open(news_articles[2].url)
+      except:
+         messagebox.showinfo("No articles")
 
 class GUIApp(App):
     def build(self):
@@ -106,7 +142,6 @@ class CustomizedTextInput(TextInput):
    
    '''
    Leave this commented out. Will eventually be used as part of an autosuggestion feature for the search bar
-
     def insert_text(self, substring, from_undo=False):
       #print(Launch.ids.input_field.text)
       if substring.endswith('a') or substring.endswith('A'):

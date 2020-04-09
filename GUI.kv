@@ -45,10 +45,6 @@
         size_hint: 0.05, 0.05
         pos_hint: {"top": 0.40, "right":.40}
         on_press: root.clicked_six_month_button()
-<<<<<<< HEAD
-=======
-
->>>>>>> miren_sprint2
     Button:
         text: "1yr"
         size_hint: 0.05, 0.05
@@ -94,29 +90,36 @@
         text: "NEWS"
         pos_hint: {"top": 0.35, "right": 0.45}
         font_size: "20sp"
+    # Button:
+    #     text:"refresh"
+    #     pos_hint: {"top": 0.20, "right": .55}
+    #     size_hint: 0.05,0.05
+    #     on_release: root.refresh_news()
     Button:
-        text:"refresh"
-        pos_hint: {"top": 0.20, "right": .55}
-        size_hint: 0.05,0.05
-        on_release: root.refresh_news()
-    Button:
-        id: "link0"
-        text: "Article"
+        id: link0
+        text: root.get_article_title(0)
+        #text_size: root.get_window_size_percent_adjusted_width(0.55), root.get_window_size_percent_adjusted_height(0.05)
+        halign: 'center'
         pos_hint: {"top": 0.15}
         size_hint: 0.55,0.05
         on_press: root.go_to_link0()
     Button:
-        id: "link1"
-        text:"Article"
+        id: link1
+        text: root.get_article_title(1)
+        #text_size: root.get_window_size_percent_adjusted_width(0.55), root.get_window_size_percent_adjusted_height(0.05)
+        halign: 'center'
         pos_hint: {"top": 0.10}
         size_hint: 0.55,0.05
         on_press: root.go_to_link1()
     Button:
-        id: "link2"
-        text:"Article"
+        id: link2
+        text: root.get_article_title(2)
+        #text_size: root.get_window_size_percent_adjusted_width(0.55), root.get_window_size_percent_adjusted_height(0.05)
+        halign: 'center'
         pos_hint: {"top": 0.05}
         size_hint: 0.55,0.05
         on_press: root.go_to_link2()
+        border: 5,5,5,5
     Button:
         text: "Log In"
         size_hint: 0.1, 0.05
@@ -133,7 +136,54 @@
         keyboard_suggestions: True
         #suggestion_text: 'test suggestion'
         on_text_validate: root.enter_stock_ticker()
-        on_text_validate: root.change_current_stock()
+    Button:
+        id: live_price
+        text: root.get_dict_value_as_string("Live Price: ", "regularMarketPrice")
+        size_hint: 0.30, 0.05
+        pos_hint: {"top": 0.35, "right":.55}
+        #background_normal: ''
+        color: 1, 1, .3, 1
+        #background_color: .2,.2,.2, 1
+    Button:
+        id: mkt_cap
+        text: root.get_dict_value_as_string("Market Cap: ", "marketCap")
+        size_hint:0.1375, 0.075
+        pos_hint: {"top": 0.3, "right":.1375}
+    Button:
+        id: div_rate
+        text: root.get_dict_value_as_string("Dividend Rate: ", "dividendRate")
+        size_hint:0.1375, 0.075
+        pos_hint: {"top": 0.225, "right":.1375}   
+    Button:
+        id: fiftytwo_wk_high
+        text: root.get_dict_value_as_string("52 Week High: ", "fiftyTwoWeekHigh")
+        size_hint:0.1375, 0.075
+        pos_hint: {"top": 0.3, "right":.275}
+    Button:
+        id: fiftytwo_wk_low
+        text: root.get_dict_value_as_string("52 WeekLow: ", "fiftyTwoWeekLow")
+        size_hint:0.1375, 0.075
+        pos_hint: {"top": 0.225, "right":.275}
+    Button:
+        id: trailing_pe
+        text:root.get_dict_value_as_string("Trailing P/E: ", "trailingPE")
+        size_hint:0.1375, 0.075
+        pos_hint: {"top": 0.3, "right":.4125}
+    Button:
+        id: trailing_eps
+        text: root.get_dict_value_as_string("Trailing EPS: ", "trailingEps")
+        size_hint:0.1375, 0.075
+        pos_hint: {"top": 0.225, "right":.4125}
+    Button:
+        id: beta
+        text: root.get_dict_value_as_string("Beta: ", "beta")
+        size_hint:0.1375, 0.075
+        pos_hint: {"top": 0.3, "right":.55}
+    Button:
+        id: earn_growth
+        text: root.get_dict_value_as_string( "Earnings Growth: ", "earningsQuarterlyGrowth")
+        size_hint:0.1375, 0.075
+        pos_hint: {"top": 0.225, "right":.55}      
 
 
 <MyPopup@Popup>:

@@ -36,6 +36,13 @@ def set_current_stock(stock_ticker_string):
     stock_short_name = stock_info_dict.get("shortName")
     build_chart()
 
+def get_current_stock():
+    return current_stock
+
+def get_stock_info_dict():
+    return stock_info_dict
+
+
 def set_current_timeframe(timeframe):
     global current_timeframe
     current_timeframe = timeframe
@@ -58,8 +65,8 @@ def get_stock_name(tickerSymbol):
 # We do this to prevent unnecessary calls to the Yahoo API which slow us down
 # A function for finding the current/most recent price from an already loaded dataframe is below this function
 def get_live_price_first(stock_ticker):
-    current_price_df = stock_ticker.history(period="1d")
-    return current_price_df.iat[0,3]
+    temp_price_df = stock_ticker.history(period= '1d', interval = '5m')
+    return temp_price_df.iat[0,3]
 
 
 #Use this function to get the live price when you have recently loaded a dataframe with price history via the ____.history() call
@@ -107,7 +114,7 @@ def get_index():
         list_index.append(i)
     return list_index
 
-print(get_index())
+#print(get_index())
 
 def get_column_one_data():
     final_data = []
@@ -131,7 +138,7 @@ def get_column_one_data():
                 final_data.append(z)
     return final_data
 
-print(get_column_one_data())
+#print(get_column_one_data())
 
 
 
@@ -157,7 +164,7 @@ def get_column_two_data():
                 final_data.append(z)
     return final_data
 
-print(get_column_two_data())
+#print(get_column_two_data())
 
 
 def get_column_three_data():
@@ -182,7 +189,7 @@ def get_column_three_data():
                 final_data.append(z)
     return final_data
 
-print(get_column_three_data())
+#print(get_column_three_data())
 
 
 def get_column_four_data():
@@ -207,17 +214,17 @@ def get_column_four_data():
                 final_data.append(z)
     return final_data
 
-print(get_column_four_data())
+#print(get_column_four_data())
 
 
 
-modified_financial_data = (pd.DataFrame.from_items([
-    ("Breakdown", get_index()),
-    ("2019-06-30", get_column_one_data()),
-    ("2018-06-30", get_column_two_data()),
-    ("2017-06-30", get_column_three_data()),
-    ("2016-06-30", get_column_four_data())
-]))
+# modified_financial_data = (pd.DataFrame.from_items([
+#     ("Breakdown", get_index()),
+#     ("2019-06-30", get_column_one_data()),
+#     ("2018-06-30", get_column_two_data()),
+#     ("2017-06-30", get_column_three_data()),
+#     ("2016-06-30", get_column_four_data())
+# ]))
 
 # modified_financial_data = (pd.DataFrame.from_items([
 #     ("Breakdown", ['Research Development', 'Effect Of Accounting Charges', 'Income Before Tax', 'Minority Interest', 'Net Income', 'Selling General Administrative', 'Gross Profit', 'Ebit', 'Operating Income', 'Other Operating Expenses', 'Interest Expense', 'Extraordinary Items', 'Non Recurring', 'Other Items', 'Income Tax Expense', 'Total Revenue', 'Total Operating Expenses', 'Cost Of Revenue', 'Total Other Income Expense Net', 'Discontinued Operations', 'Net Income From Continuing Ops', 'Net Income Applicable To Common Shares']),
@@ -227,8 +234,8 @@ modified_financial_data = (pd.DataFrame.from_items([
 #     ("2016-06-30", ['11.9 Trillion', None, '25.6 Trillion', None, '20.5 Trillion', '19.1 Trillion', '58.3 Trillion', '27.1 Trillion', '27.1 Trillion', None, ' - 1.2 Billion', None, None, None, '5.1 Billion', '91.1 Trillion', '63.9 Trillion', '32.7 Trillion', ' - 1.5 Billion', None, '20.5 Trillion', '20.5 Trillion'])
 # ]))
 
-print("Financials for", current_stock.ticker)
-print(modified_financial_data)
+#print("Financials for", current_stock.ticker)
+#print(modified_financial_data)
 
 
 # import imgkit

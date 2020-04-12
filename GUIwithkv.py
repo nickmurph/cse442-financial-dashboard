@@ -8,17 +8,16 @@ from kivy.core.window import Window
 from kivy.config import Config
 from kivy.uix.textinput import TextInput
 from kivy.factory import Factory
+from stocks_and_charts import current_stock
 from stocks_and_charts import build_chart
+from stocks_and_charts import financials_update
 from stocks_and_charts import set_current_stock
 from stocks_and_charts import chart_timeframes
 from stocks_and_charts import set_current_timeframe
 from stocks_and_charts import chart_periods
 from stocks_and_charts import set_current_period
-from stocks_and_charts import modified_financial_data
 import tkinter as tk
 from tkinter import messagebox
-
-df = modified_financial_data
 
 # This allows the window to be resizable by the user
 Config.set('graphics', 'resizable', True)
@@ -36,16 +35,27 @@ Window.minimum_width = (screen_res_width/1.5)
 # Should turn the background all white but not working; alternative method in .kv file
 #Window.clearcolor = (1, 1, 1, 1)
 
-
 class Launch(FloatLayout):
     def testFunction(self):
         print("Executing python code via button is a success")
 
     def buyCallback(self):
-        print('Successfully Purchased Stock')
+        entered_number = self.ids.Purchase.text
+        entered_text = self.ids.input_field.text
+        if entered_text == "":
+            x = "You have successfully purchased " + entered_number + " shares of " + current_stock.ticker + "!"
+        else:
+            x = "You have successfully purchased " + entered_number + " shares of " + entered_text + "!" 
+        messagebox.showinfo("Successfully Purchased", x)
 
     def sellCallback(self):
-        print('Successfully Sold Stock')
+        entered_number = self.ids.Sell.text
+        entered_text = self.ids.input_field.text
+        if entered_text == "":
+            x = "You have successfully sold " + entered_number + " shares of " + current_stock.ticker + "!"
+        else:
+            x = "You have successfully sold " + entered_number + " shares of " + entered_text + "!" 
+        messagebox.showinfo("Successfully Sold", x)
 
     def clicked_one_day_button(self):
         set_current_timeframe(chart_timeframes[0])
@@ -83,18 +93,18 @@ class Launch(FloatLayout):
         build_chart()
         self.ids.chart_image.reload()
 
+        
     def enter_stock_ticker(self):
         entered_text = self.ids.input_field.text
-        # print(entered_text)
         try:
             set_current_stock(entered_text)
             self.ids.chart_image.reload()
+            self.ids.financial_image.reload()
+            
         except:
             # Factory.MyPopup().open()
             messagebox.showinfo(
                 "Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
-
-
 
 class GUIApp(App):
     def build(self):

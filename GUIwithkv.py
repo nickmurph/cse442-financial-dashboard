@@ -9,7 +9,9 @@ from kivy.config import Config
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label 
 from kivy.factory import Factory
+from stocks_and_charts import current_stock
 from stocks_and_charts import build_chart
+from stocks_and_charts import financials_update
 from stocks_and_charts import set_current_stock
 from stocks_and_charts import chart_timeframes
 from stocks_and_charts import set_current_timeframe

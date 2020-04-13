@@ -2,11 +2,12 @@
 #:import Factory kivy.factory.Factory
 
 
-
 <FloatLayout>:
     #This puts a rectangle the size of the window in the window and places it behind all other widgets, with a color determined by RGBA values
     #alternative to the apparently non-working Window.clearcolor call in our corresponding .py file
-    
+    # name:"launch_screen"
+
+
     canvas.before:
         Color:
             rgba: 0,0,0,0
@@ -128,6 +129,13 @@
         background_normal: ''
         background_color: 0, 1, 0, .85
         on_release: Factory.CustomPopup().open()
+    Button:
+        text: "Portfolio"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": 0.2}
+        color: 176, 224, 230, .85
+        background_color: 176, 224, 230, .85
+        on_release: Factory.Portfolio().open()
     CustomizedTextInput:
         id: input_field
         hint_text: 'Search Here'
@@ -184,7 +192,7 @@
         id: earn_growth
         text: root.get_dict_value_as_string( "Earnings Growth: ", "earningsQuarterlyGrowth")
         size_hint:0.1375, 0.075
-        pos_hint: {"top": 0.225, "right":.55}      
+        pos_hint: {"top": 0.225, "right":.55}    
 
 <CustomPopup@Popup>:
     title: 'Login'
@@ -243,6 +251,28 @@
             text: 'Create Username'
             font_size: 24
             on_press: root.create_name(login.text, password.text)
+
+<Portfolio@Popup>:
+    title: "Portfolio"
+
+    GridLayout:
+        cols: 4
+        Button:
+            text:"Stock Name"
+        Button:
+            text:"Shares"
+        Button:
+            text:"Current Price"
+        Button:
+            text:"Total Change"
+        Label:
+            text:"Apple"
+        Label:
+            text:"20"
+        Label:
+            text:"150"
+        Label:
+            text:"3000"
 
 <MyPopup@Popup>:
     title: "Error Occured!"

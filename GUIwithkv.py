@@ -3,7 +3,10 @@ import time
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
+# from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.floatlayout import FloatLayout
+# from kivy.uix.boxlayout import BoxLayout
+from kivy.uix.recycleview import RecycleView
 from kivy.core.window import Window
 from kivy.config import Config
 from kivy.uix.textinput import TextInput
@@ -193,6 +196,12 @@ class Launch(FloatLayout):
       self.ids.beta.text = Launch.get_dict_value_as_string(self, "Beta: ", "beta")
       self.ids.earn_growth.text = Launch.get_dict_value_as_string(self, "Earnings Growth: ", "earningsQuarterlyGrowth")
 
+
+#RecycleView not working well with screenmanager currently, need to work on showing actual data.
+# class PortfolioScreen(RecycleView):
+#     def __init__(self, **kwargs): 
+#         super(PortfolioScreen, self).__init__(**kwargs) 
+#         self.data = [{'label1_text': str(x['R1']), 'label2_text': str(x['R2']), 'label3_text': str(x['R3']), 'label4_text': str(x['R4'])} for x in stocks]
 
 class GUIApp(App):
     def build(self):

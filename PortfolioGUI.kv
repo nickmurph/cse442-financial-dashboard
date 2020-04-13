@@ -1,0 +1,29 @@
+#:kivy 1.9.0
+
+<Table>:
+    orientation: 'horizontal'
+    label1_text: 'label1'
+    label2_text: 'label2'
+    label3_text: 'label3'
+    label4_text: 'label4'
+    Label:
+        id: R1
+        text: root.label1_text
+    Label:
+        id: R2
+        text: root.label2_text
+    Label:
+        id: R3
+        text: root.label3_text
+    Label:
+        id: R4
+        text: root.label4_text
+
+<PortfolioScreen>: 
+    viewclass: 'Table'
+    RecycleBoxLayout:
+        default_size: None, dp(20)
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height
+        orientation: 'vertical'

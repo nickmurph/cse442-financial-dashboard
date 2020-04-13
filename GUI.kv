@@ -181,18 +181,20 @@
         Button:
             text: 'Login'
             font_size: 24
-
-            on_press: root.login_btn(login.text, password.text)
-
+            #on_press: root.login_btn(login.text, password.text)
+            on_press: popup.dismiss()
+            
         Button:
             text: 'Cancel'
             font_size: 24
-            on_press: root.cancel_btn()
+            #on_press: root.cancel_btn()
+            on_press: popup.dismiss()
 
         Button:
             text: 'Create Username'
             font_size: 24
-            on_press: root.create_name(login.text, password.text)
+            #on_press: root.create_name(login.text, password.text)
+            on_press: popup.dismiss()
 
 <MyPopup@Popup>:
     title: "Error Occured!"

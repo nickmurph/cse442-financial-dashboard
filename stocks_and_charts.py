@@ -195,8 +195,6 @@ def modified_financial_data(financials):
     modified_fd = (pd.DataFrame.from_items([("Breakdown", index), ("2019-06-30", col1), ("2018-06-30", col2), ("2017-06-30", col3), ("2016-06-30", col4)]))
     return modified_fd
 
-config = pdfkit.configuration(wkhtmltopdf="C:\\Program Files\\wkhtmltopdf\\bin\\wkhtmltoimage.exe")
-
 data = modified_financial_data(financials)
 
 css = """

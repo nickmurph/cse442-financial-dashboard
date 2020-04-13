@@ -1,11 +1,16 @@
 import pandas as pd
+import imgkit
+import os
 import time
 import requests
 import yfinance as yf
 import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.colors as mplcolors
-import numpy as np 
+import numpy as np
+import pdfkit
+import codecs
+import io
 from pandas.plotting import register_matplotlib_converters
 from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
 from finance_num_formatting import format_financial_number

@@ -71,7 +71,7 @@ class Launch(FloatLayout):
         return ( Window.size[1] * height_fraction)
 
     def buyCallback(self):
-        entered_number = self.ids.Purchase_PU.text
+        entered_number = self.ids.Purchase.text
         entered_text = self.ids.input_field.text
         if int_or_not(entered_number) == True:
             if entered_text == "":

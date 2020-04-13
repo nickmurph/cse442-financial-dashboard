@@ -35,26 +35,41 @@ Window.minimum_width = (screen_res_width/1.5)
 # Should turn the background all white but not working; alternative method in .kv file
 #Window.clearcolor = (1, 1, 1, 1)
 
+def int_or_not(string):
+    try: 
+        int(string)
+        return True
+    except ValueError:
+        return False
+
 class Launch(FloatLayout):
     def testFunction(self):
         print("Executing python code via button is a success")
 
     def buyCallback(self):
-        entered_number = self.ids.Purchase.text
+        entered_number = self.ids.Purchase_PU.text
         entered_text = self.ids.input_field.text
-        if entered_text == "":
-            x = "You have successfully purchased " + entered_number + " shares of " + current_stock.ticker + "!"
+        if int_or_not(entered_number) == True:
+            if entered_text == "":
+                x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock.ticker + "!"
+            else:
+                entered_text = entered_text.upper()
+                x = "You have successfully purchased " + entered_number + " share(s) of " + entered_text + "!"
         else:
-            x = "You have successfully purchased " + entered_number + " shares of " + entered_text + "!" 
+            x = "Please enter a valid integer value."
         messagebox.showinfo("Successfully Purchased", x)
 
     def sellCallback(self):
         entered_number = self.ids.Sell.text
         entered_text = self.ids.input_field.text
-        if entered_text == "":
-            x = "You have successfully sold " + entered_number + " shares of " + current_stock.ticker + "!"
+        if int_or_not(entered_number) == True:
+            if entered_text == "":
+                x = "You have successfully sold " + entered_number + " share(s) of " + current_stock.ticker + "!"
+            else:
+                entered_text = entered_text.upper()
+                x = "You have successfully sold " + entered_number + " share(s) of " + entered_text + "!"
         else:
-            x = "You have successfully sold " + entered_number + " shares of " + entered_text + "!" 
+            x = "Please enter a valid integer value."
         messagebox.showinfo("Successfully Sold", x)
 
     def clicked_one_day_button(self):

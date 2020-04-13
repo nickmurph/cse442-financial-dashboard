@@ -54,6 +54,7 @@ def get_window_size():
    return Window.size
 
 class Launch(FloatLayout):
+<<<<<<< HEAD
    def testFunction(self):
       print("Executing python code via button is a success")
    
@@ -110,6 +111,7 @@ class Launch(FloatLayout):
       try:
          set_current_stock(entered_text)
          self.ids.chart_image.reload()
+         self.ids.financials_image.reload()
          Launch.update_all_quick_info(self)
          Launch.change_current_stock(self)
       except:
@@ -195,6 +197,77 @@ class Launch(FloatLayout):
       self.ids.beta.text = Launch.get_dict_value_as_string(self, "Beta: ", "beta")
       self.ids.earn_growth.text = Launch.get_dict_value_as_string(self, "Earnings Growth: ", "earningsQuarterlyGrowth")
 
+=======
+    def testFunction(self):
+        print("Executing python code via button is a success")
+
+    def buyCallback(self):
+        entered_number = self.ids.Purchase.text
+        entered_text = self.ids.input_field.text
+        if entered_text == "":
+            x = "You have successfully purchased " + entered_number + " shares of " + current_stock.ticker + "!"
+        else:
+            x = "You have successfully purchased " + entered_number + " shares of " + entered_text + "!" 
+        messagebox.showinfo("Successfully Purchased", x)
+
+    def sellCallback(self):
+        entered_number = self.ids.Sell.text
+        entered_text = self.ids.input_field.text
+        if entered_text == "":
+            x = "You have successfully sold " + entered_number + " shares of " + current_stock.ticker + "!"
+        else:
+            x = "You have successfully sold " + entered_number + " shares of " + entered_text + "!" 
+        messagebox.showinfo("Successfully Sold", x)
+
+    def clicked_one_day_button(self):
+        set_current_timeframe(chart_timeframes[0])
+        set_current_period(chart_periods[0])
+        build_chart()
+        self.ids.chart_image.reload()
+
+    def clicked_one_month_button(self):
+        set_current_timeframe(chart_timeframes[1])
+        set_current_period(chart_periods[1])
+        build_chart()
+        self.ids.chart_image.reload()
+
+    def clicked_six_month_button(self):
+        set_current_timeframe(chart_timeframes[2])
+        set_current_period(chart_periods[2])
+        build_chart()
+        self.ids.chart_image.reload()
+
+    def clicked_one_year_button(self):
+        set_current_timeframe(chart_timeframes[3])
+        set_current_period(chart_periods[3])
+        build_chart()
+        self.ids.chart_image.reload()
+
+    def clicked_five_year_button(self):
+        set_current_timeframe(chart_timeframes[4])
+        set_current_period(chart_periods[4])
+        build_chart()
+        self.ids.chart_image.reload()
+
+    def clicked_max_time_button(self):
+        set_current_timeframe(chart_timeframes[5])
+        set_current_period(chart_periods[5])
+        build_chart()
+        self.ids.chart_image.reload()
+
+        
+    def enter_stock_ticker(self):
+        entered_text = self.ids.input_field.text
+        try:
+            set_current_stock(entered_text)
+            self.ids.chart_image.reload()
+            self.ids.financials_image.reload()
+            
+        except:
+            # Factory.MyPopup().open()
+            messagebox.showinfo(
+                "Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
+>>>>>>> miren_sprint2
 
 class GUIApp(App):
     def build(self):

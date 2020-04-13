@@ -208,7 +208,7 @@ def modified_financial_data(financials):
     col2 = get_column_two_data(financials)
     col3 = get_column_three_data(financials)
     col4 = get_column_four_data(financials)
-    modified_fd = (pd.DataFrame.from_items([("Breakdown", index), ("2019-06-30", col1), ("2018-06-30", col2), ("2017-06-30", col3), ("2016-06-30", col4)]))
+    modified_fd = (pd.DataFrame.from_dict(dict([("Breakdown", index), ("2019-06-30", col1), ("2018-06-30", col2), ("2017-06-30", col3), ("2016-06-30", col4)])))
     return modified_fd
 
 data = modified_financial_data(financials)

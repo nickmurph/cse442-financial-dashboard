@@ -1,4 +1,6 @@
 import pandas as pd
+import imgkit
+import os
 import time
 import requests
 import yfinance as yf
@@ -6,8 +8,6 @@ import matplotlib as mpl
 import matplotlib.pyplot as plt
 import matplotlib.colors as mplcolors
 import numpy as np
-import imgkit
-import os
 import pdfkit
 import codecs
 import io

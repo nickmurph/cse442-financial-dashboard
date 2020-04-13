@@ -99,7 +99,7 @@ class Launch(FloatLayout):
         try:
             set_current_stock(entered_text)
             self.ids.chart_image.reload()
-            self.ids.financial_image.reload()
+            self.ids.financials_image.reload()
             
         except:
             # Factory.MyPopup().open()

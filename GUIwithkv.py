@@ -47,7 +47,7 @@ class Launch(FloatLayout):
         print("Executing python code via button is a success")
 
     def buyCallback(self):
-        entered_number = self.ids.Purchase_PU.text
+        entered_number = self.ids.Purchase.text
         entered_text = self.ids.input_field.text
         if int_or_not(entered_number) == True:
             if entered_text == "":

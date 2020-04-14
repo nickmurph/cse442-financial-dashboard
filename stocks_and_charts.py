@@ -264,9 +264,11 @@ def DataFrame_to_image(data, css=css, outputfile ="financial_data.png", format="
     text_file.close()
 
     imgkitoptions = {"format": format}
-
-    imgkit.from_file(fn, outputfile, options=imgkitoptions)
+    path_for_wkhtml = r'wkhtmltopdf\wkhtmltoimage.exe'
+    config = imgkit.config(wkhtmltoimage=path_for_wkhtml)
+    imgkit.from_file(fn, outputfile, options=imgkitoptions, config=config)
     os.remove(fn)
+
         
 DataFrame_to_image(data, css)
 

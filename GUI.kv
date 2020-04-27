@@ -194,7 +194,15 @@
         id: earn_growth
         text: root.get_dict_value_as_string( "Earnings Growth: ", "earningsQuarterlyGrowth")
         size_hint:0.1375, 0.075
-        pos_hint: {"top": 0.225, "right":.55}      
+        pos_hint: {"top": 0.225, "right":.55}
+    Button:
+        text: "Portfolio"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": 0.2}
+        color: 176, 224, 230, .85
+        background_color: 176, 224, 230, .85
+        on_release: Factory.Portfolio().open()
+        
 
 <CustomPopup@Popup>:
     title: 'Login'
@@ -256,6 +264,28 @@
             font_size: 24
             #on_press: root.create_name(login.text, password.text)
             on_press: popup.dismiss()
+
+<Portfolio@Popup>:
+    title: "Portfolio"
+
+    GridLayout:
+        cols: 4
+        Button:
+            text:"Stock Name"
+        Button:
+            text:"Shares"
+        Button:
+            text:"Current Price"
+        Button:
+            text:"Total Change"
+        Label:
+            text:"Apple"
+        Label:
+            text:"20"
+        Label:
+            text:"150"
+        Label:
+            text:"3000"
 
 <MyPopup@Popup>:
     title: "Error Occured!"

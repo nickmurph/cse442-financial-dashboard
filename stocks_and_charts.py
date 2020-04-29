@@ -102,6 +102,10 @@ def get_closing_price_list(stock_ticker):
 def get_date_list(stock_ticker):
     closing_prices = current_price_dataframe["Close"]
     date_array = closing_prices.index.values
+    if current_timeframe == '1-Month':
+        date_array = [str(x)[6:10] for x in date_array]
+    if current_timeframe == '1-Day':
+        date_array = [str(x)[11:16] for x in date_array]  
     return date_array
         
 financials = current_stock.financials
@@ -112,11 +116,11 @@ def get_index(financials):
         list_index.append(i)
     return list_index
 
-def get_column_one_data(financials):
+def get_column_data(financials, col_index):
     final_data = []
     data = []
     for i in range(len(financials)):
-        x = financials.iloc[i, 0]
+        x = financials.iloc[i, col_index]
         data.append(x)
     for j in data:
         if j is None:
@@ -134,80 +138,13 @@ def get_column_one_data(financials):
                 final_data.append(z)
     return final_data
 
-def get_column_two_data(financials):
-    final_data = []
-    data = []
-    for i in range(len(financials)):
-        x = financials.iloc[i, 1]
-        data.append(x)
-    for j in data:
-        if j is None:
-            #print(j)
-            final_data.append(j)
-        else:
-            if j < 0:
-                positive = abs(j)
-                y = format_financial_number(positive)
-                full_string = " - " + y
-                #print(full_string)
-                final_data.append(full_string)
-            else:
-                z = format_financial_number(j)
-                final_data.append(z)
-    return final_data
-
-
-def get_column_three_data(financials):
-    final_data = []
-    data = []
-    for i in range(len(financials)):
-        x = financials.iloc[i, 2]
-        data.append(x)
-    for j in data:
-        if j is None:
-            #print(j)
-            final_data.append(j)
-        else:
-            if j < 0:
-                positive = abs(j)
-                y = format_financial_number(positive)
-                full_string = " - " + y
-                #print(full_string)
-                final_data.append(full_string)
-            else:
-                z = format_financial_number(j)
-                final_data.append(z)
-    return final_data
-
-
-def get_column_four_data(financials):
-    final_data = []
-    data = []
-    for i in range(len(financials)):
-        x = financials.iloc[i, 3]
-        data.append(x)
-    for j in data:
-        if j is None:
-            #print(j)
-            final_data.append(j)
-        else:
-            if j < 0:
-                positive = abs(j)
-                y = format_financial_number(positive)
-                full_string = " - " + y
-                #print(full_string)
-                final_data.append(full_string)
-            else:
-                z = format_financial_number(j)
-                final_data.append(z)
-    return final_data
 
 def modified_financial_data(financials):
     index = get_index(financials)
-    col1 = get_column_one_data(financials)
-    col2 = get_column_two_data(financials)
-    col3 = get_column_three_data(financials)
-    col4 = get_column_four_data(financials)
+    col1 = get_column_data(financials,0)
+    col2 = get_column_data(financials,1)
+    col3 = get_column_data(financials,2)
+    col4 = get_column_data(financials,3)
     modified_fd = (pd.DataFrame.from_dict(dict([("Breakdown", index), ("2019-06-30", col1), ("2018-06-30", col2), ("2017-06-30", col3), ("2016-06-30", col4)])))
     return modified_fd
 
@@ -300,11 +237,19 @@ def build_chart_image(date_list, price_list):
     plt.rcParams['axes.labelcolor'] = plt_text_color
     plt.rcParams['xtick.color'] = plt_text_color
     plt.rcParams['ytick.color'] = plt_text_color
-    plt.rcParams['axes.formatter.useoffset'] = False
+    plt.rcParams['axes.formatter.useoffset'] = True
+    plt.rcParams.update({'figure.max_open_warning': 0})
     #plt.yscale('log')
+    ax = plt.subplots()[1]
     plt.plot(date_list, price_list)
+    if current_timeframe == '1-Month' or current_timeframe == '1-Day':
+        every_other = 2
+        for n, label in enumerate(ax.xaxis.get_ticklabels()):
+            if n % every_other != 0:
+                label.set_visible(False)
     plt.title(stock_short_name + ' ' + current_timeframe + ' Price Chart')
-    plt.savefig("current_chart.png", bbox_inches = 'tight')
+    plt.rcParams["savefig.facecolor"] = 'white'
+    plt.savefig("current_chart.png", bbox_inches = "tight")
     #plt.show()
 
 #build_chart()

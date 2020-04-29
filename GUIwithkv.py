@@ -3,8 +3,11 @@ import time
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
+from kivy.uix.button import Button
 from kivy.uix.floatlayout import FloatLayout
+from kivy.uix.recycleview import RecycleView
 from kivy.core.window import Window
+from kivy.graphics import Rectangle, Color
 from kivy.config import Config
 from kivy.uix.textinput import TextInput
 from kivy.uix.label import Label 
@@ -22,6 +25,7 @@ from stocks_and_charts import get_live_price_first
 from stocks_and_charts import get_current_stock
 from stocks_and_charts import get_stock_info_dict
 from finance_num_formatting import format_financial_number
+from stock_list_and_search import search_for_company
 
 from news_links import get_news
 
@@ -32,6 +36,7 @@ import webbrowser
 
 #This allows the window to be resizable by the user
 Config.set('graphics', 'resizable', True)
+Config.set('input', 'mouse', 'mouse,multitouch_on_demand')
 
 #Using an instance of Tkinter solely to get the user's screensize, a feature Kivy unfortunately lacks
 Tkinter_instance = tk.Tk()
@@ -49,6 +54,8 @@ Window.minimum_width = (screen_res_width/1.5)
 news_articles = []
 current_stock_name = "Microsoft"
 news_articles = get_news(current_stock_name)
+list_of_ticker_search_results = []
+launch_obj = None
 
 def get_window_size():
    return Window.size
@@ -140,15 +147,24 @@ class Launch(FloatLayout):
             self.ids.financials_image.reload()
             Launch.update_all_quick_info(self)
             Launch.change_current_stock(self)
+            self.ids.input_field.text = ""
         except:
             #Factory.MyPopup().open()
             messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
 
+    
 
     def change_current_stock(self):
             entered_text = self.ids.input_field.text
             global current_stock_name
             current_stock_name = get_stock_name(entered_text)
+            global news_articles
+            news_articles = get_news(current_stock_name)
+            Launch.refresh_news(self)
+
+    def change_current_stock_via_RV_search(self, ticker_from_RV_search):
+            global current_stock_name
+            current_stock_name = get_stock_name(ticker_from_RV_search)
             global news_articles
             news_articles = get_news(current_stock_name)
             Launch.refresh_news(self)
@@ -213,6 +229,7 @@ class Launch(FloatLayout):
 
 
     def update_all_quick_info(self):
+        #print(self)
         self.ids.live_price.text = Launch.get_dict_value_as_string(self, "Live Price: ", "regularMarketPrice")
         self.ids.mkt_cap.text = Launch.get_dict_value_as_string(self, "Market Cap: ", "marketCap")
         self.ids.div_rate.text = Launch.get_dict_value_as_string(self, "Dividend Rate: ", "dividendRate")
@@ -224,16 +241,11 @@ class Launch(FloatLayout):
         self.ids.earn_growth.text = Launch.get_dict_value_as_string(self, "Earnings Growth: ", "earningsQuarterlyGrowth")
 
 
-class GUIApp(App):
-    def build(self):
-        self.title = 'MnMs Finance Tool'
-        return Launch()
-
 
 class CustomizedTextInput(TextInput):
    
    '''
-   Leave this commented out. Will eventually be used as part of an autosuggestion feature for the search bar
+   Leave this commented out. Will eventually be used as part of an autosuggestion feature for the wh bar
     def insert_text(self, substring, from_undo=False):
       #print(Launch.ids.input_field.text)
       if substring.endswith('a') or substring.endswith('A'):
@@ -243,6 +255,52 @@ class CustomizedTextInput(TextInput):
       else:
          return super(CustomizedTextInput, self).insert_text(substring, from_undo=from_undo)
    '''
+
+
+class TickerSearchPopup(Popup):
+    def enter_stock_search_string(self):
+        global list_of_ticker_search_results
+        entered_text = self.ids.ticker_search.text
+        list_of_ticker_search_results = search_for_company(entered_text)  
+        self.ids.searched_stocks_rv.update_data(list_of_ticker_search_results)
+        #print(list_of_ticker_search_results)
+
+
+class SearchResultRV(RecycleView):
+    def __init__(self, **kwargs): 
+        super(SearchResultRV, self).__init__(**kwargs) 
+        self.data = []
+
+    def update_data(self, new_data):
+        self.data = [{'text': str(x)} for x in new_data]
+
+
+class SearchRVButton(Button):
+    global launch_obj
+
+    def on_press(self):
+        try:
+            button_text = self.text
+            button_text = button_text[2:]
+            button_text = button_text.split("'")[0]
+            set_current_stock(button_text)
+            App.get_running_app().root.ids.chart_image.reload()
+            App.get_running_app().root.ids.financials_image.reload()
+            launch_obj.change_current_stock_via_RV_search(button_text)
+            launch_obj.update_all_quick_info()
+            App.get_running_app().root.ids.input_field.text = ""
+            self.parent.parent.parent.parent.parent.parent.dismiss()
+        except:
+            messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Not all tickers are part of the YFinance database. Try another!")
+
+
+class GUIApp(App):
+    def build(self):
+        global launch_obj
+        self.title = 'MnMs Finance Tool'
+        launch_obj = Launch()
+        return launch_obj
+
 
 if __name__ == '__main__':
     GUIApp().run()

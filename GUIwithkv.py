@@ -33,6 +33,7 @@ import tkinter as tk
 from tkinter import messagebox
 
 import webbrowser
+import csv
 
 #This allows the window to be resizable by the user
 Config.set('graphics', 'resizable', True)
@@ -51,6 +52,7 @@ Window.minimum_width = (screen_res_width/1.5)
 #Should turn the background all white but not working; alternative method in .kv file
 #Window.clearcolor = (1, 1 ,1, 1)
 
+username = ""
 news_articles = []
 current_stock_name = "Microsoft"
 news_articles = get_news(current_stock_name)
@@ -239,8 +241,94 @@ class Launch(FloatLayout):
         self.ids.trailing_eps.text = Launch.get_dict_value_as_string(self, "Trailing EPS: ", "trailingEps")
         self.ids.beta.text = Launch.get_dict_value_as_string(self, "Beta: ", "beta")
         self.ids.earn_growth.text = Launch.get_dict_value_as_string(self, "Earnings Growth: ", "earningsQuarterlyGrowth")
+    
+    def welcome(self):
+        return ("Welcome " + username)
 
+    def logout(self):
+        global username
+        if username != "":
+            username = ""
+            App.get_running_app().root.ids.Welcome.text = Launch.welcome(self)
+        else:
+            invalidLogout()
+        
+def invalidLogout():
+    pop = Popup(title='Invalid Logout', content=Label(text='You are already logged out.'),
+                size_hint=(None, None), size=(400, 400))
 
+    pop.open()
+
+def invalidForm():
+    pop = Popup(title='Invalid Form', content=Label(text='Please fill in all inputs with valid information.'),
+                size_hint=(None, None), size=(400, 400))
+
+    pop.open()
+
+def invalidName():
+    pop = Popup(title='Invalid Username', content=Label(text='This username already exists.'),
+                size_hint=(None, None), size=(400, 400))
+
+    pop.open()
+
+def invalidLogin():
+    pop = Popup(title='Invalid Login', content=Label(text='Invalid username or password.'),
+                size_hint=(None, None), size=(400, 400))
+
+    pop.open()
+
+def welcomePop(usename):
+    pop = Popup(title='Welcome', content=Label(text='Welcome '+ usename + '!'),
+                size_hint=(None, None), size=(400, 400))
+
+    pop.open()
+
+class CustomPopup(Popup):
+    def login_btn(self, uname, password):
+        global username
+        csv_file = csv.reader(open('users.csv', "rt"), delimiter=",")
+        check = 0
+        if uname != "" and password != "":
+            for row in csv_file:
+                if row[0] == uname and row[2] == password:
+                    check = 1
+                    welcomePop(uname)
+                    CustomPopup.dismiss(self)
+                    username = uname
+                    App.get_running_app().root.ids.Welcome.text = Launch.welcome(self)
+                                                   
+        else:
+            invalidLogin()
+
+        if check == 0 and uname != "" and password != "":
+            invalidLogin()
+            
+
+class CreatePopup(Popup):
+    def create_login(self, createname, email, createpass):
+        csv_file = csv.reader(open('users.csv', "rt"), delimiter=",")
+        check = 0
+        for row in csv_file:
+            if row[0] == createname:
+                    check = 1
+        if check == 1:
+            invalidName()
+            return
+
+        if createname != "" and email != "" and email.count("@") == 1 and email.count(".") > 0:
+            if createpass != "":
+                rowsAppended = []
+                rowsAppended.append([createname, email, createpass])
+                with open('users.csv', 'a', newline='') as csvfile:
+                    writer = csv.writer(csvfile)
+                    writer.writerows(rowsAppended)
+
+                CreatePopup.dismiss(self)               
+
+            else:
+                invalidForm()
+        else:
+            invalidForm()
 
 class CustomizedTextInput(TextInput):
    

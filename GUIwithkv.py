@@ -54,7 +54,7 @@ Window.minimum_width = (screen_res_width/1.5)
 
 username = ""
 news_articles = []
-current_stock_name = "Microsoft"
+current_stock_name = "Microsoft Corporation"
 news_articles = get_news(current_stock_name)
 list_of_ticker_search_results = []
 launch_obj = None
@@ -81,15 +81,10 @@ class Launch(FloatLayout):
 
     def buyCallback(self):
         entered_number = self.ids.Purchase.text
-        entered_text = self.ids.input_field.text
         global current_stock_name
         if int_or_not(entered_number) == True:
-            if entered_text == "":
-                current_stock_name = get_stock_name(current_stock.ticker)
-                x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock_name
-            else:
-                current_stock_name = get_stock_name(entered_text)
-                x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock_name
+            updated_stock = current_stock_name
+            x = "You have successfully purchased " + entered_number + " share(s) of " + updated_stock
         else:
             x = "Please enter a valid integer value."
             return messagebox.showinfo("Error!", x)
@@ -97,15 +92,10 @@ class Launch(FloatLayout):
 
     def sellCallback(self):
         entered_number = self.ids.Sell.text
-        entered_text = self.ids.input_field.text
         global current_stock_name
         if int_or_not(entered_number) == True:
-            if entered_text == "":
-                current_stock_name = get_stock_name(current_stock.ticker)
-                x = "You have successfully sold " + entered_number + " share(s) of " + current_stock_name
-            else:
-                current_stock_name = get_stock_name(entered_text)
-                x = "You have successfully sold " + entered_number + " share(s) of " + current_stock_name
+            updated_stock = current_stock_name
+            x = "You have successfully sold " + entered_number + " share(s) of " + updated_stock
         else:
             x = "Please enter a valid integer value."
             return messagebox.showinfo("Error!", x)
@@ -158,7 +148,7 @@ class Launch(FloatLayout):
             self.ids.input_field.text = ""
         except:
             #Factory.MyPopup().open()
-            messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
+            messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\nUse the 'Look Up Ticker' tool to make sure it is a valid stock ticker or try again later.")
 
     
 

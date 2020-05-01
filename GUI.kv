@@ -22,6 +22,7 @@
 
     Label:
         text: "Financial Information"
+        id: financials_text
         size_hint: 0.4, 0.05
         pos_hint: {"top": .88, "right": 0.98}
         font_size: "40sp"
@@ -156,6 +157,20 @@
         background_normal: ''
         background_color: 0, 0, 1, .25
         on_release: Factory.TickerSearchPopup().open()
+    Button:
+        text: "Portfolio"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": 0.2}
+        color: 176, 224, 230, .85
+        background_color: 176, 224, 230, .85
+        on_release: Factory.Portfolio().open()
+    Button:
+        text: "My Watch List"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": 0.3}
+        color: 176, 224, 230, .85
+        background_color: 176, 224, 230, .85
+        on_release: Factory.WatchListPopup().open()
     CustomizedTextInput:
         id: input_field
         hint_text: 'Enter Stock Ticker Here'
@@ -168,11 +183,16 @@
     Button:
         id: live_price
         text: root.get_dict_value_as_string("Live Price: ", "regularMarketPrice")
-        size_hint: 0.30, 0.05
-        pos_hint: {"top": 0.35, "right":.55}
-        #background_normal: ''
+        size_hint: 0.15, 0.05
+        pos_hint: {"top": 0.35, "right":0.40}
+        # background_normal: ''
         color: 1, 1, .3, 1
-        #background_color: .2,.2,.2, 1
+        # background_color: .2,.2,.2, 1
+    Button:
+        id: add_to_my_watch_list
+        text: "Add to My Watch List"
+        size_hint: 0.15, 0.05
+        pos_hint: {"top": 0.35, "right": 0.55}
     Button:
         id: mkt_cap
         text: root.get_dict_value_as_string("Market Cap: ", "marketCap")
@@ -212,7 +232,7 @@
         id: earn_growth
         text: root.get_dict_value_as_string( "Earnings Growth: ", "earningsQuarterlyGrowth")
         size_hint:0.1375, 0.075
-        pos_hint: {"top": 0.225, "right":.55}      
+        pos_hint: {"top": 0.225, "right":.55}
 
 <CustomPopup@Popup>:
     title: 'Login'
@@ -337,7 +357,48 @@
             text: 'Cancel'
             font_size: 24
             on_press: create.dismiss()
-     
+
+<WatchListPopup@Popup>:
+    title: 'WatchList'
+    id: wl_popup
+    auto_dismiss: False
+
+    BoxLayout
+        id: watch_list_layout
+        orientation: 'vertical'
+        padding: [10,20,10,20]
+        spacing: 10
+        Label:
+            text: 'My Watch List'
+            font_size: 28
+        Button:
+            text: 'Cancel'
+            font_size: 24
+            #on_press: root.cancel_btn()
+            on_press: wl_popup.dismiss()
+
+<Portfolio@Popup>:
+    title: "Portfolio"
+
+    GridLayout:
+        cols: 4
+        Button:
+            text:"Stock Name"
+        Button:
+            text:"Shares"
+        Button:
+            text:"Current Price"
+        Button:
+            text:"Total Change"
+        Label:
+            text:"Apple"
+        Label:
+            text:"20"
+        Label:
+            text:"150"
+        Label:
+            text:"3000"
+
 <MyPopup@Popup>:
     title: "Error Occured!"
     id: test_popup

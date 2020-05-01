@@ -82,27 +82,33 @@ class Launch(FloatLayout):
     def buyCallback(self):
         entered_number = self.ids.Purchase.text
         entered_text = self.ids.input_field.text
+        global current_stock_name
         if int_or_not(entered_number) == True:
             if entered_text == "":
-                x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock.ticker + "!"
+                current_stock_name = get_stock_name(current_stock.ticker)
+                x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock_name
             else:
-                entered_text = entered_text.upper()
-                x = "You have successfully purchased " + entered_number + " share(s) of " + entered_text + "!"
+                current_stock_name = get_stock_name(entered_text)
+                x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock_name
         else:
             x = "Please enter a valid integer value."
+            return messagebox.showinfo("Error!", x)
         messagebox.showinfo("Successfully Purchased", x)
 
     def sellCallback(self):
         entered_number = self.ids.Sell.text
         entered_text = self.ids.input_field.text
+        global current_stock_name
         if int_or_not(entered_number) == True:
             if entered_text == "":
-                x = "You have successfully sold " + entered_number + " share(s) of " + current_stock.ticker + "!"
+                current_stock_name = get_stock_name(current_stock.ticker)
+                x = "You have successfully sold " + entered_number + " share(s) of " + current_stock_name
             else:
-                entered_text = entered_text.upper()
-                x = "You have successfully sold " + entered_number + " share(s) of " + entered_text + "!"
+                current_stock_name = get_stock_name(entered_text)
+                x = "You have successfully sold " + entered_number + " share(s) of " + current_stock_name
         else:
             x = "Please enter a valid integer value."
+            return messagebox.showinfo("Error!", x)
         messagebox.showinfo("Successfully Sold", x)
 
     def clicked_one_day_button(self):
@@ -157,12 +163,12 @@ class Launch(FloatLayout):
     
 
     def change_current_stock(self):
-            entered_text = self.ids.input_field.text
-            global current_stock_name
-            current_stock_name = get_stock_name(entered_text)
-            global news_articles
-            news_articles = get_news(current_stock_name)
-            Launch.refresh_news(self)
+        entered_text = self.ids.input_field.text
+        global current_stock_name
+        current_stock_name = get_stock_name(entered_text)
+        global news_articles
+        news_articles = get_news(current_stock_name)
+        Launch.refresh_news(self)
 
     def change_current_stock_via_RV_search(self, ticker_from_RV_search):
             global current_stock_name

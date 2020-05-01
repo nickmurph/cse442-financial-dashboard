@@ -133,6 +133,22 @@
         background_color: 0, 1, 0, .85
         on_release: Factory.CustomPopup().open()
     Button:
+        id: Welcome
+        text: root.welcome()
+        size_hint: 0.2, 0.05
+        pos_hint: {"top":.95, "right": .5}
+        color: 0, 0, 0, .85
+        background_normal: ''
+        background_color: 0, 1, 0, .85
+    Button:
+        text: "Log Out"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": .7}
+        color: 0, 0, 0, .85
+        background_normal: ''
+        background_color: 0, 1, 0, .85
+        on_press: root.logout()
+    Button:
         id: ticker_lookup
         text: "Look Up Ticker"
         size_hint: 0.1, 0.05
@@ -264,21 +280,83 @@
         Button:
             text: 'Login'
             font_size: 24
-            #on_press: root.login_btn(login.text, password.text)
-            on_press: popup.dismiss()
+            on_press: root.login_btn(login.text, password.text)
             
         Button:
             text: 'Cancel'
             font_size: 24
-            #on_press: root.cancel_btn()
             on_press: popup.dismiss()
 
         Button:
             text: 'Create Username'
             font_size: 24
-            #on_press: root.create_name(login.text, password.text)
-            on_press: popup.dismiss()
+            on_press: Factory.CreatePopup().open()
+            
+<CreatePopup@Popup>:
+    title: 'Login'
+    id: create
+    auto_dismiss: False
 
+    BoxLayout
+        id: login_layout
+        orientation: 'vertical'
+        padding: [10,20,10,20]
+        spacing: 10
+
+        Label:
+            text: 'Create Username'
+            font_size: 28
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: 'Username'
+                font_size: 18
+                halign: 'left'
+                text_size: root.width-20, 20
+
+            TextInput:
+                id: createname
+                multiline:False
+                font_size: 16
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: 'Email'
+                font_size: 18
+                halign: 'left'
+                text_size: root.width-20, 20
+
+            TextInput:
+                id: email
+                multiline:False
+                font_size: 16        
+
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'Password'
+                halign: 'left'
+                font_size: 18
+                text_size: root.width-20, 20
+
+            TextInput:
+                id: createpass
+                multiline:False
+                font_size: 16
+
+        Button:
+            text: 'Create'
+            font_size: 24
+            on_press: root.create_login(createname.text, email.text, createpass.text)
+            
+        Button:
+            text: 'Cancel'
+            font_size: 24
+            on_press: create.dismiss()
 
 <WatchListPopup@Popup>:
     title: 'WatchList'
@@ -298,8 +376,6 @@
             font_size: 24
             #on_press: root.cancel_btn()
             on_press: wl_popup.dismiss()
-
-
 
 <Portfolio@Popup>:
     title: "Portfolio"

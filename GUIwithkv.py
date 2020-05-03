@@ -58,6 +58,8 @@ current_stock_name = "Microsoft"
 news_articles = get_news(current_stock_name)
 list_of_ticker_search_results = []
 launch_obj = None
+current_tooltip = ""
+login_status = False
 
 def get_window_size():
    return Window.size
@@ -157,8 +159,8 @@ class Launch(FloatLayout):
             Launch.change_current_stock(self)
             self.ids.input_field.text = ""
         except:
-            #Factory.MyPopup().open()
-            messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
+            Factory.MyPopup().open()
+            #messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
 
     
 
@@ -251,14 +253,47 @@ class Launch(FloatLayout):
     def welcome(self):
         return ("Welcome " + username)
 
+    def loginOrLogOut(self):
+        if login_status == False:
+            Factory.CustomPopup().open()
+        else:
+            launch_obj.logout()
+
     def logout(self):
         global username
         if username != "":
             username = ""
             App.get_running_app().root.ids.Welcome.text = Launch.welcome(self)
+            launch_obj.flipLogInOrOut(0)
         else:
             invalidLogout()
+
+    def flipLogInOrOut(self, int_switch):
+        global login_status
+
+        if int_switch == 0:
+            login_status = False
+            self.ids.login_button.text = "Log In"
+            self.ids.login_button.color = 0, 0, 0, .8
+            self.ids.login_button.background_color = 0, 1, 0, .85
+
+        if int_switch == 1:
+            login_status = True
+            self.ids.login_button.text = "Log Out"
+            self.ids.login_button.color = 1, 1, 1, .8
+            self.ids.login_button.background_color = .8, 0, 0, .85
+
+    def getCurrentTooltip(self):
+        return current_tooltip
+
+    def setCurrentTooltip(self, tooltip_name):
+        global current_tooltip
+        current_tooltip = tooltip_name
+            
+
         
+
+    
 def invalidLogout():
     pop = Popup(title='Invalid Logout', content=Label(text='You are already logged out.'),
                 size_hint=(None, None), size=(400, 400))
@@ -289,6 +324,8 @@ def welcomePop(usename):
 
     pop.open()
 
+
+
 class CustomPopup(Popup):
     def login_btn(self, uname, password):
         global username
@@ -302,6 +339,8 @@ class CustomPopup(Popup):
                     CustomPopup.dismiss(self)
                     username = uname
                     App.get_running_app().root.ids.Welcome.text = Launch.welcome(self)
+                    launch_obj.flipLogInOrOut(1)
+                    
                                                    
         else:
             invalidLogin()
@@ -360,6 +399,22 @@ class TickerSearchPopup(Popup):
         #print(list_of_ticker_search_results)
 
 
+class TooltipPopup(Popup):
+    def getCurrentTooltip(self):
+        return current_tooltip
+
+    def getTooltipDefinition(self):
+        sought_string = current_tooltip
+        result = "NOTHIN'!"
+        tooltip_file = open("tooltip_definitions.txt", "r")
+        lines_list = tooltip_file.readlines()
+        for x in range(len(lines_list)):
+            if lines_list[x][:len(sought_string)] == sought_string:
+                result = lines_list[x+1]
+                break
+        tooltip_file.close()
+        return result
+
 class SearchResultRV(RecycleView):
     def __init__(self, **kwargs): 
         super(SearchResultRV, self).__init__(**kwargs) 
@@ -373,19 +428,19 @@ class SearchRVButton(Button):
     global launch_obj
 
     def on_press(self):
-        try:
-            button_text = self.text
-            button_text = button_text[2:]
-            button_text = button_text.split("'")[0]
-            set_current_stock(button_text)
-            App.get_running_app().root.ids.chart_image.reload()
-            App.get_running_app().root.ids.financials_image.reload()
-            launch_obj.change_current_stock_via_RV_search(button_text)
-            launch_obj.update_all_quick_info()
-            App.get_running_app().root.ids.input_field.text = ""
-            self.parent.parent.parent.parent.parent.parent.dismiss()
-        except:
-            messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Not all tickers are part of the YFinance database. Try another!")
+       # try:
+        button_text = self.text
+        button_text = button_text[2:]
+        button_text = button_text.split("'")[0]
+        set_current_stock(button_text)
+        App.get_running_app().root.ids.chart_image.reload()
+        App.get_running_app().root.ids.financials_image.reload()
+        launch_obj.change_current_stock_via_RV_search(button_text)
+        launch_obj.update_all_quick_info()
+        App.get_running_app().root.ids.input_field.text = ""
+        self.parent.parent.parent.parent.parent.parent.dismiss()
+      #  except:
+       #     messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Not all tickers are part of the YFinance database. Try another!")
 
 
 class GUIApp(App):

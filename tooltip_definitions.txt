@@ -1,0 +1,25 @@
+
+Market Cap
+Market Cap, short for Market Capitalization, is the total sum value of all outstanding shares. It can be calculated by multiplying the share price by the number of shares in circulation to give you an idea of the company's worth on the public market. It's most useful when comparing the relative value of competitors.
+
+Dividend Rate
+The dividend rate is the yearly dividend paid per share by the company. A dividend is a share of profits returned by the corporation to shareholders, which makes dividend paying stocks highly valued for income-focused portfolios. The dividend rate is calculated by combining the quarterly dividends paid along with any one-time bonus dividends to achieve an expected annualized dividend payout. Dividend rate is a dollar amount, whereas Dividend Yield is a percentage derived from dividing the Dividend Rate by the Share Price.
+
+52 Week High
+The 52 Week High is the highest closing price the stock has achieved in the last year, regardless of what its value is now. This metric is often seen as an indication of momentum (with stocks trading near or at their 52 Week High having high momentum), and traders also use the 52 Week High and Low as levels at which they expect sellers and buyers to battle. 
+
+52 Week Low
+The 52 Week Low is the lowest closing price the stock has reached in the last year, regardless of what its value is now. This metric is often seen as an indication of momentum (with stocks trading near or at their 52 Week Low having poor momentum), and traders also use the 52 Week High and Low as levels at which they expect sellers and buyers to battle.
+
+Trailing P/E
+Trailing P/E is a backwards-looking Price-to-Earnings ratio, derived from dividing the current price per share by the Earnings Per Share, or EPS, from the past year. P/E is seen as the standard ratio for the valuation of stocks, with high P/E ratios generally indicating a stock is overpriced and low ratios indicating a bargain. P/E ratio should never be used as a sole indicator, as ratios vary across industries and maturity levels of companies.
+
+Trailing EPS
+Trailing EPS is a backwards looking ratio derived from dividing the total earnings of the company over the last 4 reported quarters by the number of outstanding shares. Higher scores on this metric are desirable. Trailing EPS is used to track trends in the earnings of companies, with year-over-year and quarterly increases in earnings indicating a healthy business and often causing an appreciation in the share price.
+
+
+Beta
+Beta is a ratio that measures the volatility in a stocks price changes as compared to the market as a whole. A beta greater than 1 means that the share price is more prone to swings than the market and vice versa for a Beat less than 1. High Beta stocks can often outperform the market in sustained uptrends, but present the risk of greater losses should the market turn south.
+
+Earnings Growth
+Earnings Growth is the year-over-year change in the EPS, Earnings Per Share. Earnings Growth of .22 in Q2 would indicate a percentage increase of 22% over the EPS from Q2 of the previous year. Earnings Growth is considered a key indicator of sustained success and future growth, major justifications for a trader to expect a future increase in the stock price.

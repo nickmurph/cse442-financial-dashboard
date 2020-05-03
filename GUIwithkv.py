@@ -71,6 +71,9 @@ def int_or_not(string):
     except ValueError:
         return False
 
+def reload_chart_image():
+    launch_obj.ids.chart_image.reload()
+
 class Launch(FloatLayout):
     def testFunction(self):
         print("Executing python code via button is a success")

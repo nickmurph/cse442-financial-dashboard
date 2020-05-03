@@ -15,6 +15,7 @@ from pandas.plotting import register_matplotlib_converters
 from matplotlib.ticker import ScalarFormatter, FormatStrFormatter
 from finance_num_formatting import format_financial_number
 
+
 #print(time.ctime())
 register_matplotlib_converters()
 default_time_value = 3
@@ -216,6 +217,7 @@ def build_chart():
     date_list = get_date_list(current_stock)
     build_chart_image(date_list, price_list)
 
+
 def financials_update():
     financials = current_stock.financials
     financials_df = modified_financial_data(financials)
@@ -252,14 +254,4 @@ def build_chart_image(date_list, price_list):
     plt.savefig("current_chart.png", bbox_inches = "tight")
     #plt.show()
 
-#build_chart()
-#print(time.ctime())
-
-
-
-#calling the following two lines will show you the error message caused by the yFinance headers bug
-#There is a potential fix available on the issues tab of the YFinance github's issue page
-#After this push, will attempt to integrate this hotfix and begin testing for any errors
-
-#test_stock = yf.Ticker("SPCE")
-#stock_info_dict = test_stock.info.get("shortName")
+build_chart()

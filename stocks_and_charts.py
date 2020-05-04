@@ -63,7 +63,6 @@ def get_stock_name(tickerSymbol):
 
 
 
-
 # Use this function to get the live price when a previous and recent call has not already been made for a dataframe with the daily or monthly price data
 # If such a dataframe has already been loaded, simply access the latest price in that DF 
 # We do this to prevent unnecessary calls to the Yahoo API which slow us down

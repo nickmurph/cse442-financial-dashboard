@@ -2,6 +2,7 @@ import kivy
 import time
 import numpy
 import pandas as pd
+# import dfgui
 
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -59,13 +60,15 @@ news_articles = []
 current_stock_name = "Microsoft"
 news_articles = get_news(current_stock_name)
 
-username = 'ming'
+username = ''
 
 try:
     portfolio_dataframe = pd.read_pickle("./portfolio_dataframe_" + username + ".pkl")
 except FileNotFoundError:
     portfolio_dataframe = create_dataframe(username)
 
+npy_dataframe = get_dataframe_to_numpy(username,portfolio_dataframe)
+print(npy_dataframe)
 print(portfolio_dataframe)
 
 def get_window_size():
@@ -91,36 +94,38 @@ class Launch(FloatLayout):
     def buyCallback(self):
         entered_number = self.ids.Purchase.text
         entered_text = self.ids.input_field.text
+        current_stock_name = get_stock_name(current_stock.ticker)
         if int_or_not(entered_number) == True:
             if entered_text == "":
+                current_stock_name = get_stock_name(current_stock.ticker)
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock.ticker),int(entered_number),170)
                 x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock.ticker + "!"
             else:
                 entered_text = entered_text.upper()
+                current_stock_name = get_stock_name(entered_text)
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(entered_text),int(entered_number),170)
                 x = "You have successfully purchased " + entered_number + " share(s) of " + entered_text + "!"
         else:
             x = "Please enter a valid integer value."
         messagebox.showinfo("Successfully Purchased", x)
 
-    def update_dataframe_buy(self):
-        buy_amount = self.ids.Purchase.text
-        current_stock_ticker = current_stock.ticker
-        current_stock_name = get_stock_name(current_stock.ticker)
-        update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock_ticker),int(buy_amount),10)
-
-    def update_dataframe_sell(self):
-        sell_amount = self.ids.Sell.text
-        current_stock_ticker = current_stock.ticker
-        current_stock_name = get_stock_name(current_stock.ticker)
-        update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock_ticker),int(sell_amount) * -1, 10)
+    # def open_portfolio(self):
+    #     xls = pd.read_pickle("./portfolio_dataframe_" + username + ".pkl")
+    #     dfgui.show(xls)
 
     def sellCallback(self):
         entered_number = self.ids.Sell.text
         entered_text = self.ids.input_field.text
         if int_or_not(entered_number) == True:
             if entered_text == "":
+                current_stock_name = get_stock_name(current_stock.ticker)
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock.ticker),int(entered_number) * -1,current_price)
                 x = "You have successfully sold " + entered_number + " share(s) of " + current_stock.ticker + "!"
             else:
                 entered_text = entered_text.upper()
+                current_stock_name = get_stock_name(entered_text)
+                current_price = get_live_price_first(entered_text)
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(entered_text),int(entered_number) * -1,current_price)
                 x = "You have successfully sold " + entered_number + " share(s) of " + entered_text + "!"
         else:
             x = "Please enter a valid integer value."
@@ -268,10 +273,10 @@ class CustomizedTextInput(TextInput):
          return super(CustomizedTextInput, self).insert_text(substring, from_undo=from_undo)
    '''
 
-# class PortfolioRV(RecycleView):
-#     def __init__(self, **kwargs): 
-#         super(PortfolioRV, self).__init__(**kwargs) 
-#         self.data = [{'label1_text': str(x[i][0]), 'label2_text': str(x[i][1]), 'label3_text': str(x[i][2]), 'label4_text': str(x[i][3])} for i in range(len(x))]
+class PortfolioRV(RecycleView):
+    def __init__(self, **kwargs): 
+        super(PortfolioRV, self).__init__(**kwargs) 
+        self.data = [{'text':str(x)} for x in npy_dataframe]
 
 if __name__ == '__main__':
     GUIApp().run()

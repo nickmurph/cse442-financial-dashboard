@@ -9,10 +9,12 @@ import numpy as numpy
 from portfolio_database import update_to_amount
 from portfolio_database import create_dataframe
 
-portfolio_data = create_dataframe()
+username  = "ming"
 
-update_to_amount(portfolio_data,"Microsoft Corporation", "MSFT", 10, 10)
-update_to_amount(portfolio_data,"Apple","APPL",10,10)
+portfolio_data = create_dataframe(username)
+
+update_to_amount(username,portfolio_data,"Microsoft Corporation", "MSFT", 10, 10)
+update_to_amount(username,portfolio_data,"Apple","APPL",10,10)
 
 x = portfolio_data.to_numpy()
 

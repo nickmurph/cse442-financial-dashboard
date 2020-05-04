@@ -119,13 +119,12 @@ class Launch(FloatLayout):
         if int_or_not(entered_number) == True:
             if entered_text == "":
                 current_stock_name = get_stock_name(current_stock.ticker)
-                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock.ticker),int(entered_number) * -1,current_price)
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock.ticker),int(entered_number) * -1,170)
                 x = "You have successfully sold " + entered_number + " share(s) of " + current_stock.ticker + "!"
             else:
                 entered_text = entered_text.upper()
                 current_stock_name = get_stock_name(entered_text)
-                current_price = get_live_price_first(entered_text)
-                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(entered_text),int(entered_number) * -1,current_price)
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(entered_text),int(entered_number) * -1,170)
                 x = "You have successfully sold " + entered_number + " share(s) of " + entered_text + "!"
         else:
             x = "Please enter a valid integer value."

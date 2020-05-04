@@ -213,49 +213,49 @@
         text: root.get_dict_value_as_string("Dividend Rate: ", "dividendRate")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.225, "right":.1375}
-        on_press: root.tooltipClicked("Dividend Rate")
+        on_press: root.setCurrentTooltip("Dividend Rate")
         on_release: Factory.TooltipPopup().open()  
     Button:
         id: fiftytwo_wk_high
         text: root.get_dict_value_as_string("52 Week High: ", "fiftyTwoWeekHigh")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.275}
-        on_press: root.tooltipClicked("52 Week High")
+        on_press: root.setCurrentTooltip("52 Week High")
         on_release: Factory.TooltipPopup().open()  
     Button:
         id: fiftytwo_wk_low
         text: root.get_dict_value_as_string("52 WeekLow: ", "fiftyTwoWeekLow")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.225, "right":.275}
-        on_press: root.tooltipClicked("52 Week Low")
+        on_press: root.setCurrentTooltip("52 Week Low")
         on_release: Factory.TooltipPopup().open()  
     Button:
         id: trailing_pe
         text:root.get_dict_value_as_string("Trailing P/E: ", "trailingPE")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.4125}
-        on_press: root.tooltipClicked("Trailing P/E")
+        on_press: root.setCurrentTooltip("Trailing P/E")
         on_release: Factory.TooltipPopup().open()  
     Button:
         id: trailing_eps
         text: root.get_dict_value_as_string("Trailing EPS: ", "trailingEps")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.225, "right":.4125}
-        on_press: root.tooltipClicked("Trailing EPS")
+        on_press: root.setCurrentTooltip("Trailing EPS")
         on_release: Factory.TooltipPopup().open()  
     Button:
         id: beta
         text: root.get_dict_value_as_string("Beta: ", "beta")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.55}
-        on_press: root.tooltipClicked("Beta")
+        on_press: root.setCurrentTooltip("Beta")
         on_release: Factory.TooltipPopup().open()  
     Button:
         id: earn_growth
         text: root.get_dict_value_as_string( "Earnings Growth: ", "earningsQuarterlyGrowth")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.225, "right":.55}
-        on_press: root.tooltipClicked("Earnings Growth")
+        on_press: root.setCurrentTooltip("Earnings Growth")
         on_release: Factory.TooltipPopup().open()  
 
 <CustomPopup@Popup>:

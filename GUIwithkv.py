@@ -259,7 +259,7 @@ class Launch(FloatLayout):
         global username
         global watchlist_array
         if username != "":
-            c_s_ticker = current_stock.ticker
+            c_s_ticker = get_current_stock().ticker
             pickle_file = open('pickled_watch_list', 'rb')
             dictionary = pickle.load(pickle_file)
             updated_dictionary = add_to_watchlist(dictionary, username, c_s_ticker)
@@ -267,6 +267,7 @@ class Launch(FloatLayout):
             print(array)
             for i in array:
                 watchlist_array.append(i)
+                watchlist_array = sorted(watchlist_array)
         else:
             empty_username()
     print(watchlist_array)

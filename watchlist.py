@@ -1,6 +1,7 @@
 import csv
 from stocks_and_charts import get_stock_name
 import pickle
+from GUIwithkv import username
 
 
 
@@ -29,7 +30,9 @@ def add_to_watchlist(dictionary, username, desired_stock):
                     value = list(dict.fromkeys(value))
     return dictionary
 
-updated_dictionary = add_to_watchlist(dictionary, "efgh", "BAC")
+updated_dictionary = add_to_watchlist(dictionary, "miren", "MSFT")
+updated_dictionary = add_to_watchlist(dictionary, "abcdef", "MSFT")
+
 
 
 pickling_init_load(dictionary)
@@ -53,5 +56,3 @@ def get_full_name(username, updated_dictionary):
         full_array.append(y)
         
     return full_array
-
-print(get_full_name("efgh", updated_dictionary))

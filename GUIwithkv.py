@@ -67,6 +67,7 @@ current_tooltip = ""
 #login_status = False
 launch_obj = None
 watchlist_array = []
+user_array = []
 
 def get_window_size():
    return Window.size
@@ -268,9 +269,11 @@ class Launch(FloatLayout):
 
     def logout(self):
         global username
+        global watchlist_array
         if username != "":
             username = ""
             App.get_running_app().root.ids.Welcome.text = Launch.welcome(self)
+            watchlist_array = []
             #launch_obj.flipLogInOrOut(0)
         else:
             invalidLogout()
@@ -311,6 +314,7 @@ class Launch(FloatLayout):
             for i in array:
                 watchlist_array.append(i)
                 watchlist_array = sorted(watchlist_array)
+                watchlist_array = list(dict.fromkeys(watchlist_array))
         else:
             empty_username()
     print(watchlist_array)
@@ -359,6 +363,7 @@ def empty_username():
 class CustomPopup(Popup):
     def login_btn(self, uname, password):
         global username
+        global user_array
         key = load_key()
         f = Fernet(key)
         check = 0
@@ -373,6 +378,7 @@ class CustomPopup(Popup):
             c = f.decrypt(b)
             d = c.decode('utf-8')
             d3.append(d)
+        user_array = d3
         for i in d2[1:]:
             a = i
             b = a.encode('utf-8')
@@ -440,8 +446,13 @@ class CreatePopup(Popup):
                     writer = csv.writer(csvfile)
                     writer.writerows(rowsAppended)
 
-                CreatePopup.dismiss(self)               
+                row = []
+                row.append([createname])               
+                with open('usernames.csv', 'a', newline='') as csvfile2:
+                    writer =csv.writer(csvfile2)
+                    writer.writerows(row)
 
+                CreatePopup.dismiss(self)
             else:
                 invalidForm()
         else:

@@ -1,12 +1,14 @@
 import csv
 import pickle
+from GUIwithkv import user_array
 
 def creating_watchlist_db():
-    username_file = open('users.csv','r')
+    username_file = open('usernames.csv','r')
     reader = csv.reader(username_file)
     watch_list_dictionary = {}
     for row in reader:
         watch_list_dictionary[row[0]] = [""]
+    print(watch_list_dictionary)
     return watch_list_dictionary
 
 def pickling_init_dump(dictionary):

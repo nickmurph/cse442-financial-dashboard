@@ -26,7 +26,7 @@ from stocks_and_charts import get_current_stock
 from stocks_and_charts import get_stock_info_dict
 from finance_num_formatting import format_financial_number
 from stock_list_and_search import search_for_company
-
+from cryptography.fernet import Fernet
 from news_links import get_news
 
 import tkinter as tk
@@ -68,6 +68,14 @@ def int_or_not(string):
         return True
     except ValueError:
         return False
+      
+def write_key():
+    key = Fernet.generate_key()
+    with open("key.key", "wb") as key_file:
+        key_file.write(key)
+
+def load_key():
+    return open("key.key", "rb").read()
 
 class Launch(FloatLayout):
     def testFunction(self):
@@ -292,31 +300,63 @@ def welcomePop(usename):
 class CustomPopup(Popup):
     def login_btn(self, uname, password):
         global username
-        csv_file = csv.reader(open('users.csv', "rt"), delimiter=",")
+        key = load_key()
+        f = Fernet(key)
         check = 0
+        data = list(csv.reader(open('users.csv', "rt"),delimiter = ','))
+        d1 = [item[0] for item in data]
+        d2 = [item[2] for item in data]
+        d3 = []
+        d4 = []
+        for i in d1[1:]:
+            a = i
+            b = a.encode('utf-8')
+            c = f.decrypt(b)
+            d = c.decode('utf-8')
+            d3.append(d)
+        for i in d2[1:]:
+            a = i
+            b = a.encode('utf-8')
+            c = f.decrypt(b)
+            d = c.decode('utf-8')
+            d4.append(d)
         if uname != "" and password != "":
-            for row in csv_file:
-                if row[0] == uname and row[2] == password:
+            i = 0
+            length = len(d3)
+            while i < length:     
+                if d3[i] == uname and d4[i] == password:
                     check = 1
                     welcomePop(uname)
                     CustomPopup.dismiss(self)
                     username = uname
                     App.get_running_app().root.ids.Welcome.text = Launch.welcome(self)
-                                                   
+                i += 1                                   
         else:
             invalidLogin()
 
         if check == 0 and uname != "" and password != "":
             invalidLogin()
-            
 
 class CreatePopup(Popup):
     def create_login(self, createname, email, createpass):
-        csv_file = csv.reader(open('users.csv', "rt"), delimiter=",")
+        key = load_key()
+        f = Fernet(key)
         check = 0
-        for row in csv_file:
-            if row[0] == createname:
-                    check = 1
+        data = list(csv.reader(open('users.csv', "rt"),delimiter = ','))
+        d1 = [item[0] for item in data]
+        d3 = []
+        for i in d1[1:]:
+            a = i
+            b = a.encode('utf-8')
+            c = f.decrypt(b)
+            d = c.decode('utf-8')
+            d3.append(d)
+        i = 0
+        length = len(d3)
+        while i < length:     
+            if d3[i] == createname:
+                check = 1
+            i += 1  
         if check == 1:
             invalidName()
             return
@@ -324,7 +364,18 @@ class CreatePopup(Popup):
         if createname != "" and email != "" and email.count("@") == 1 and email.count(".") > 0:
             if createpass != "":
                 rowsAppended = []
-                rowsAppended.append([createname, email, createpass])
+                key = load_key()
+                f = Fernet(key)
+                byte_name = createname.encode()
+                byte_email = email.encode()
+                byte_pass = createpass.encode()
+                encrypt_name = f.encrypt(byte_name)
+                encrypt_email = f.encrypt(byte_email)
+                encrypt_pass = f.encrypt(byte_pass)
+                thename = encrypt_name.decode('utf-8')
+                theemail = encrypt_email.decode('utf-8')
+                thepass = encrypt_pass.decode('utf-8')
+                rowsAppended.append([thename, theemail, thepass])
                 with open('users.csv', 'a', newline='') as csvfile:
                     writer = csv.writer(csvfile)
                     writer.writerows(rowsAppended)

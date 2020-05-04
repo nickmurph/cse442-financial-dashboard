@@ -30,7 +30,6 @@ current_period = chart_periods[default_time_value]
 
 #print(msft_monthly_prices.iat[row_length-1,3])
 
-
 def set_current_stock(stock_ticker_string):
     global current_stock
     global stock_info_dict

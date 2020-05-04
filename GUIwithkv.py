@@ -27,6 +27,10 @@ from stocks_and_charts import get_stock_info_dict
 from finance_num_formatting import format_financial_number
 from stock_list_and_search import search_for_company
 from cryptography.fernet import Fernet
+from watchlist import get_full_name
+from watchlist import add_to_watchlist
+
+
 from news_links import get_news
 
 import tkinter as tk
@@ -34,6 +38,8 @@ from tkinter import messagebox
 
 import webbrowser
 import csv
+
+import pickle
 
 #This allows the window to be resizable by the user
 Config.set('graphics', 'resizable', True)
@@ -54,12 +60,13 @@ Window.minimum_width = (screen_res_width/1.5)
 
 username = ""
 news_articles = []
-current_stock_name = "Microsoft"
+current_stock_name = "Microsoft Corporation"
 news_articles = get_news(current_stock_name)
 list_of_ticker_search_results = []
-#launch_obj = None
 current_tooltip = ""
 #login_status = False
+launch_obj = None
+watchlist_array = []
 
 def get_window_size():
    return Window.size
@@ -94,15 +101,10 @@ class Launch(FloatLayout):
 
     def buyCallback(self):
         entered_number = self.ids.Purchase.text
-        entered_text = self.ids.input_field.text
         global current_stock_name
         if int_or_not(entered_number) == True:
-            if entered_text == "":
-                current_stock_name = get_stock_name(current_stock.ticker)
-                x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock_name
-            else:
-                current_stock_name = get_stock_name(entered_text)
-                x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock_name
+            updated_stock = current_stock_name
+            x = "You have successfully purchased " + entered_number + " share(s) of " + updated_stock
         else:
             x = "Please enter a valid integer value."
             return messagebox.showinfo("Error!", x)
@@ -110,15 +112,10 @@ class Launch(FloatLayout):
 
     def sellCallback(self):
         entered_number = self.ids.Sell.text
-        entered_text = self.ids.input_field.text
         global current_stock_name
         if int_or_not(entered_number) == True:
-            if entered_text == "":
-                current_stock_name = get_stock_name(current_stock.ticker)
-                x = "You have successfully sold " + entered_number + " share(s) of " + current_stock_name
-            else:
-                current_stock_name = get_stock_name(entered_text)
-                x = "You have successfully sold " + entered_number + " share(s) of " + current_stock_name
+            updated_stock = current_stock_name
+            x = "You have successfully sold " + entered_number + " share(s) of " + updated_stock
         else:
             x = "Please enter a valid integer value."
             return messagebox.showinfo("Error!", x)
@@ -166,14 +163,12 @@ class Launch(FloatLayout):
             set_current_stock(entered_text)
             self.ids.chart_image.reload()
             self.ids.financials_image.reload()
-            Launch.update_all_quick_info(self)
             Launch.change_current_stock(self)
+            Launch.update_all_quick_info(self)
             self.ids.input_field.text = ""
         except:
-            Factory.MyPopup().open()
-            #messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
-
-    
+            #Factory.MyPopup().open()
+            messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\nUse the 'Look Up Ticker' tool to make sure it is a valid stock ticker or try again later.")
 
     def change_current_stock(self):
         entered_text = self.ids.input_field.text
@@ -260,6 +255,7 @@ class Launch(FloatLayout):
         self.ids.trailing_eps.text = Launch.get_dict_value_as_string(self, "Trailing EPS: ", "trailingEps")
         self.ids.beta.text = Launch.get_dict_value_as_string(self, "Beta: ", "beta")
         self.ids.earn_growth.text = Launch.get_dict_value_as_string(self, "Earnings Growth: ", "earningsQuarterlyGrowth")
+        self.ids.financials_text.text = "Financial Information for " + current_stock_name
     
     def welcome(self):
         return ("Welcome " + username)
@@ -301,6 +297,25 @@ class Launch(FloatLayout):
         global current_tooltip
         current_tooltip = tooltip_name
             
+    def add_to_my_watchlist(self):
+        global current_stock
+        global username
+        global watchlist_array
+        if username != "":
+            c_s_ticker = get_current_stock().ticker
+            pickle_file = open('pickled_watch_list', 'rb')
+            dictionary = pickle.load(pickle_file)
+            updated_dictionary = add_to_watchlist(dictionary, username, c_s_ticker)
+            array = get_full_name(username, updated_dictionary)
+            print(array)
+            for i in array:
+                watchlist_array.append(i)
+                watchlist_array = sorted(watchlist_array)
+        else:
+            empty_username()
+    print(watchlist_array)
+
+
 
         
 
@@ -332,8 +347,12 @@ def invalidLogin():
 def welcomePop(usename):
     pop = Popup(title='Welcome', content=Label(text='Welcome '+ usename + '!'),
                 size_hint=(None, None), size=(400, 400))
-
     pop.open()
+        
+def empty_username():
+    pop = Popup(title='Error!', content=Label(text='You are not logged in. Please login in order to use this feature'),
+                size_hint=(None, None), size=(500, 500))
+    pop.open()    
 
 
 
@@ -495,6 +514,38 @@ class SearchRVButton(Button):
       #  except:
        #     messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Not all tickers are part of the YFinance database. Try another!")
 
+# def array(username):
+#     empty_array = []
+#     if username == "":
+#         return empty_array
+#     else:
+#         empty_array = get_full_name(username)
+#     return empty_array
+# array_stocks = array(username)
+# print(array_stocks)
+
+print(watchlist_array)
+
+class WatchListBox(RecycleView):
+    def __init__(self, **kwargs):
+        global watchlist_array
+        super(WatchListBox, self).__init__(**kwargs)
+        # ['AAPL: Apple Inc.', 'AMZN: Amazon.com, Inc.', 'TSLA: Tesla, Inc.']
+        self.data = [{'text': str(x)} for x in watchlist_array]
+
+class WLButton(Button):
+    global launch_obj
+
+    def on_press(self):
+        button_text = self.text
+        button_text = button_text[0:]
+        button_text = button_text.split(":")[0]
+        set_current_stock(button_text)
+        App.get_running_app().root.ids.chart_image.reload()
+        App.get_running_app().root.ids.financials_image.reload()
+        launch_obj.change_current_stock_via_RV_search(button_text)
+        launch_obj.update_all_quick_info()
+        self.parent.parent.parent.parent.parent.parent.dismiss()
 
 class GUIApp(App):
     def build(self):

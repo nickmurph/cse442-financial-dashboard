@@ -20,11 +20,11 @@
         allow_stretch: True
         keep_ratio: False
     Label:
-        text: "Financial Information"
+        text: "Financial Information for Microsoft Corporation"
         id: financials_text
         size_hint: 0.4, 0.05
         pos_hint: {"top": .88, "right": 0.98}
-        font_size: "40sp"
+        font_size: "35sp"
         keep_ratio: True
         allow_stretch: True
     Image:
@@ -174,7 +174,7 @@
     Button:
         text: "My Watch List"
         size_hint: 0.1, 0.05
-        pos_hint: {"top":.95, "right": 0.3}
+        pos_hint: {"top":.95}
         color: 176, 224, 230, .85
         background_color: 176, 224, 230, .85
         on_release: Factory.WatchListPopup().open()
@@ -200,6 +200,7 @@
         text: "Add to My Watch List"
         size_hint: 0.15, 0.05
         pos_hint: {"top": 0.35, "right": 0.55}
+        on_press: root.add_to_my_watchlist()
     Button:
         id: mkt_cap
         text: root.get_dict_value_as_string("Market Cap: ", "marketCap")
@@ -382,25 +383,6 @@
             font_size: 24
             on_press: create.dismiss()
 
-<WatchListPopup@Popup>:
-    title: 'WatchList'
-    id: wl_popup
-    auto_dismiss: False
-
-    BoxLayout
-        id: watch_list_layout
-        orientation: 'vertical'
-        padding: [10,20,10,20]
-        spacing: 10
-        Label:
-            text: 'My Watch List'
-            font_size: 28
-        Button:
-            text: 'Cancel'
-            font_size: 24
-            #on_press: root.cancel_btn()
-            on_press: wl_popup.dismiss()
-
 <Portfolio@Popup>:
     title: "Portfolio"
 
@@ -529,8 +511,6 @@
             #on_press: root.login_btn(login.text, password.text)
             on_press: ticker_search_popup.dismiss()
 
-
-
 <SearchResultRV>: 
     viewclass: 'SearchRVButton' 
     orientation: "vertical"
@@ -546,3 +526,44 @@
         height: self.minimum_height 
         orientation: 'vertical'
 
+<WatchListPopup@Popup>:
+    title: 'My Watch List'
+    id: wl_popup
+    auto_dismiss: False
+
+    BoxLayout
+        id: watch_list_layout
+        orientation: 'vertical'
+        padding: [10,20,10,20]
+        spacing: 10
+
+        Label:
+            text: 'My Watch List'
+            font_size: 18
+            halign: 'center'
+            size_hint: (1, .1)
+            text_size: root.width-20, 20
+        WatchListBox:
+            id: watch_list_box
+            size_hint: (1, .65)
+            halign: 'center'
+        Button:
+            text: 'Cancel'
+            font_size: 24
+            size_hint: (.3, .1)
+            on_press: wl_popup.dismiss()
+
+<WatchListBox>: 
+    viewclass: "WLButton" 
+    orientation: "vertical"
+    spacing: 40
+    padding:10, 10
+    space_x: self.size[0]/3
+
+    RecycleBoxLayout: 
+        color:(0, 0.7, 0.4, 0.8) 
+        default_size: None, dp(100) 
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height 
+        orientation: 'vertical'

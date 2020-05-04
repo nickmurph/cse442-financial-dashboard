@@ -255,7 +255,7 @@ class Launch(FloatLayout):
         self.ids.trailing_eps.text = Launch.get_dict_value_as_string(self, "Trailing EPS: ", "trailingEps")
         self.ids.beta.text = Launch.get_dict_value_as_string(self, "Beta: ", "beta")
         self.ids.earn_growth.text = Launch.get_dict_value_as_string(self, "Earnings Growth: ", "earningsQuarterlyGrowth")
-        self.ids.financials_text.text = "Financial Information for " + current_stock_name
+        # self.ids.financials_text.text = "Financial Information for " + current_stock_name
     
     def welcome(self):
         return ("Welcome " + username)

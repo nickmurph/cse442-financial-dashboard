@@ -20,12 +20,6 @@ def pickling_init_load(dictionary):
 pickle_file = open('pickled_watch_list', 'rb')
 dictionary = pickle.load(pickle_file)
 
-print("\n")
-print("Empty Dictionary Database")
-print(dictionary)
-print("\n")
-
-
 def add_to_watchlist(dictionary, username, desired_stock):
     for (key, value) in dictionary.items():
         if username == key:
@@ -35,20 +29,11 @@ def add_to_watchlist(dictionary, username, desired_stock):
                     value = list(dict.fromkeys(value))
     return dictionary
 
-# updated_dictionary = add_to_watchlist(dictionary, "efgh", "AAPL")
-# updated_dictionary = add_to_watchlist(dictionary, "efgh", "MSFT")
-# updated_dictionary = add_to_watchlist(dictionary, "efgh", "TSLA")
 updated_dictionary = add_to_watchlist(dictionary, "efgh", "BAC")
 
 
-print("Added to the Dictionary")
-print(dictionary)
-print("\n")
-
 pickling_init_load(dictionary)
 pickling_init_dump(updated_dictionary)
-
-print(updated_dictionary)
 
 def getting_watch_list(username, updated_dictionary):
     for key, value in updated_dictionary.items(): 
@@ -56,9 +41,6 @@ def getting_watch_list(username, updated_dictionary):
             value = value[1:]
             value = list(dict.fromkeys(value))
             value = sorted(value)
-            print("Array of all the Stocks on the Watch List")
-            print(value)
-            print("\n")
             return value
 
 def get_full_name(username, updated_dictionary):
@@ -70,8 +52,6 @@ def get_full_name(username, updated_dictionary):
         y = i + ": " + x
         full_array.append(y)
         
-    print("Array with full name of all the stocks on the Watch List") 
-    print(full_array)
     return full_array
 
 print(get_full_name("efgh", updated_dictionary))

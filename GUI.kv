@@ -20,7 +20,7 @@
         allow_stretch: True
         keep_ratio: False
     Label:
-        text: "Financial Information for Microsoft Corporation"
+        text: "Financial Information"
         id: financials_text
         size_hint: 0.4, 0.05
         pos_hint: {"top": .88, "right": 0.98}
@@ -167,14 +167,14 @@
     Button:
         text: "Portfolio"
         size_hint: 0.1, 0.05
-        pos_hint: {"top":.95, "right": 0.2}
+        pos_hint: {"top":.95, "right": 0.3}
         color: 176, 224, 230, .85
         background_color: 176, 224, 230, .85
         on_release: Factory.Portfolio().open()
     Button:
         text: "My Watch List"
         size_hint: 0.1, 0.05
-        pos_hint: {"top":.95}
+        pos_hint: {"top":.95, "right": 0.2}
         color: 176, 224, 230, .85
         background_color: 176, 224, 230, .85
         on_release: Factory.WatchListPopup().open()

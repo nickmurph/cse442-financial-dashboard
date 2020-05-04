@@ -135,11 +135,26 @@
     Button:
         id: Welcome
         text: root.welcome()
-        size_hint: 0.2, 0.05
-        pos_hint: {"top":.95, "right": .5}
+        font_size: 18
+        size_hint: 0.2, 0.04
+        pos_hint: {"top":.95, "right": .65}
+        color: 1, 1, 1, 1
+        background_normal: ''
+        background_color: 0, 0, 0, 1
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Line:
+                width: 2
+                rectangle: self.x, self.y, self.width, self.height
+    Button:
+        text: "Log Out"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": .4}
         color: 0, 0, 0, .85
         background_normal: ''
-        background_color: 0, 1, 0, .85
+        background_color: 1, 0, 0, 1
+        on_press: root.logout()
     Button:
         id: ticker_lookup
         text: "Look Up Ticker"

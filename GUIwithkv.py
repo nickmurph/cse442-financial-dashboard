@@ -2,7 +2,7 @@ import kivy
 import time
 import numpy
 import pandas as pd
-# import dfgui
+import yfinance as yf
 
 from kivy.app import App
 from kivy.uix.widget import Widget
@@ -24,6 +24,7 @@ from stocks_and_charts import chart_periods
 from stocks_and_charts import set_current_period
 from stocks_and_charts import get_stock_name
 from stocks_and_charts import get_live_price_first
+from stocks_and_charts import get_live_price
 from stocks_and_charts import get_current_stock
 from stocks_and_charts import get_stock_info_dict
 from finance_num_formatting import format_financial_number
@@ -98,20 +99,22 @@ class Launch(FloatLayout):
         if int_or_not(entered_number) == True:
             if entered_text == "":
                 current_stock_name = get_stock_name(current_stock.ticker)
-                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock.ticker),int(entered_number),170)
+                ticker_info = yf.Ticker(current_stock.ticker)
+                current_price = get_live_price(ticker_info.history(period="max"))
+                # current_price = 760
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock.ticker),int(entered_number),current_price)
                 x = "You have successfully purchased " + entered_number + " share(s) of " + current_stock.ticker + "!"
             else:
                 entered_text = entered_text.upper()
                 current_stock_name = get_stock_name(entered_text)
-                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(entered_text),int(entered_number),170)
+                ticker_info = yf.Ticker(entered_text)
+                current_price = get_live_price(ticker_info.history(period="max"))
+                # current_price = 760
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(entered_text),int(entered_number),current_price)
                 x = "You have successfully purchased " + entered_number + " share(s) of " + entered_text + "!"
         else:
             x = "Please enter a valid integer value."
         messagebox.showinfo("Successfully Purchased", x)
-
-    # def open_portfolio(self):
-    #     xls = pd.read_pickle("./portfolio_dataframe_" + username + ".pkl")
-    #     dfgui.show(xls)
 
     def sellCallback(self):
         entered_number = self.ids.Sell.text
@@ -119,12 +122,16 @@ class Launch(FloatLayout):
         if int_or_not(entered_number) == True:
             if entered_text == "":
                 current_stock_name = get_stock_name(current_stock.ticker)
-                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock.ticker),int(entered_number) * -1,170)
+                ticker_info = yf.Ticker(current_stock.ticker)
+                current_price = get_live_price(ticker_info.history(period="max"))
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock.ticker),int(entered_number) * -1,current_price)
                 x = "You have successfully sold " + entered_number + " share(s) of " + current_stock.ticker + "!"
             else:
                 entered_text = entered_text.upper()
                 current_stock_name = get_stock_name(entered_text)
-                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(entered_text),int(entered_number) * -1,170)
+                ticker_info = yf.Ticker(entered_text)
+                current_price = get_live_price(ticker_info.history(period="max"))
+                update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(entered_text),int(entered_number) * -1,current_price)
                 x = "You have successfully sold " + entered_number + " share(s) of " + entered_text + "!"
         else:
             x = "Please enter a valid integer value."
@@ -273,7 +280,13 @@ class CustomizedTextInput(TextInput):
    '''
 
 class PortfolioRV(RecycleView):
-    def __init__(self, **kwargs): 
+    def __init__(self, **kwargs):
+        try:
+            portfolio_dataframe = pd.read_pickle("./portfolio_dataframe_" + username + ".pkl")
+        except FileNotFoundError:
+            portfolio_dataframe = create_dataframe(username)
+
+        npy_dataframe = get_dataframe_to_numpy(username,portfolio_dataframe)
         super(PortfolioRV, self).__init__(**kwargs) 
         self.data = [{'text':str(x)} for x in npy_dataframe]
 

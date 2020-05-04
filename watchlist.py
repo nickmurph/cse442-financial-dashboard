@@ -1,7 +1,6 @@
 import csv
 from stocks_and_charts import get_stock_name
 import pickle
-from GUIwithkv import username
 
 
 

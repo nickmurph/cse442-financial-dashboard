@@ -57,9 +57,9 @@ news_articles = []
 current_stock_name = "Microsoft"
 news_articles = get_news(current_stock_name)
 list_of_ticker_search_results = []
-launch_obj = None
+#launch_obj = None
 current_tooltip = ""
-login_status = False
+#login_status = False
 
 def get_window_size():
    return Window.size
@@ -264,35 +264,35 @@ class Launch(FloatLayout):
     def welcome(self):
         return ("Welcome " + username)
 
-    def loginOrLogOut(self):
-        if login_status == False:
-            Factory.CustomPopup().open()
-        else:
-            launch_obj.logout()
+    #def loginOrLogOut(self):
+        #if login_status == False:
+           # Factory.CustomPopup().open()
+        #else:
+           # launch_obj.logout()
 
     def logout(self):
         global username
         if username != "":
             username = ""
             App.get_running_app().root.ids.Welcome.text = Launch.welcome(self)
-            launch_obj.flipLogInOrOut(0)
+            #launch_obj.flipLogInOrOut(0)
         else:
             invalidLogout()
 
-    def flipLogInOrOut(self, int_switch):
-        global login_status
+    #def flipLogInOrOut(self, int_switch):
+       # global login_status
 
-        if int_switch == 0:
-            login_status = False
-            self.ids.login_button.text = "Log In"
-            self.ids.login_button.color = 0, 0, 0, .8
-            self.ids.login_button.background_color = 0, 1, 0, .85
+       # if int_switch == 0:
+          #  login_status = False
+          #  self.ids.login_button.text = "Log In"
+          #  self.ids.login_button.color = 0, 0, 0, .8
+          #  self.ids.login_button.background_color = 0, 1, 0, .85
 
-        if int_switch == 1:
-            login_status = True
-            self.ids.login_button.text = "Log Out"
-            self.ids.login_button.color = 1, 1, 1, .8
-            self.ids.login_button.background_color = .8, 0, 0, .85
+       # if int_switch == 1:
+            #login_status = True
+            #self.ids.login_button.text = "Log Out"
+            #self.ids.login_button.color = 1, 1, 1, .8
+            #self.ids.login_button.background_color = .8, 0, 0, .85
 
     def getCurrentTooltip(self):
         return current_tooltip
@@ -371,7 +371,7 @@ class CustomPopup(Popup):
                     username = uname
                     App.get_running_app().root.ids.Welcome.text = Launch.welcome(self)
                 i += 1                                   
-                    launch_obj.flipLogInOrOut(1)           
+                #launch_obj.flipLogInOrOut(1)           
         else:
             invalidLogin()
 

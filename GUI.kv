@@ -4,15 +4,13 @@
 
 
 <FloatLayout>:
-    #This puts a rectangle the size of the window in the window and places it behind all other widgets, with a color determined by RGBA values
-    #alternative to the apparently non-working Window.clearcolor call in our corresponding .py file
-    
     canvas.before:
         Color:
-            rgba: 0,0,0,0
+            rgba: 0,0,0,.5
         Rectangle:
             pos: self.pos
             size: self.size
+            source: 'app_background.png' #just a placeholder to demonstrate we can use an image background; comment out above Color block to enable 
     
     Image:
         id: chart_image
@@ -21,12 +19,12 @@
         pos_hint: {"top": 0.90, "right": 0.55}
         allow_stretch: True
         keep_ratio: False
-
     Label:
         text: "Financial Information"
+        id: financials_text
         size_hint: 0.4, 0.05
         pos_hint: {"top": .88, "right": 0.98}
-        font_size: "40sp"
+        font_size: "35sp"
         keep_ratio: True
         allow_stretch: True
     Image:
@@ -100,11 +98,6 @@
         text: "NEWS"
         pos_hint: {"top": 0.35, "right": 0.45}
         font_size: "20sp"
-    # Button:
-    #     text:"refresh"
-    #     pos_hint: {"top": 0.20, "right": .55}
-    #     size_hint: 0.05,0.05
-    #     on_release: root.refresh_news()
     Button:
         id: link0
         text: root.get_article_title(0)
@@ -131,16 +124,63 @@
         on_press: root.go_to_link2()
         border: 5,5,5,5
     Button:
+        id: login_button
         text: "Log In"
         size_hint: 0.1, 0.05
         pos_hint: {"top":.95}
-        color: 0, 0, 0, .85
+        color: 0, 0, 0, .8
         background_normal: ''
         background_color: 0, 1, 0, .85
         on_release: Factory.CustomPopup().open()
+    Button:
+        id: Welcome
+        text: root.welcome()
+        font_size: 18
+        size_hint: 0.2, 0.04
+        pos_hint: {"top":.95, "right": .65}
+        color: 1, 1, 1, 1
+        background_normal: ''
+        background_color: 0, 0, 0, 1
+        canvas.before:
+            Color:
+                rgba: 1, 1, 1, 1
+            Line:
+                width: 2
+                rectangle: self.x, self.y, self.width, self.height
+    Button:
+        text: "Log Out"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": .4}
+        color: 0, 0, 0, .85
+        background_normal: ''
+        background_color: 1, 0, 0, 1
+        on_press: root.logout()
+    Button:
+        id: ticker_lookup
+        text: "Look Up Ticker"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": .8}
+        color: 1, 1, 1, .85
+        background_normal: ''
+        background_color: 0, 0, 1, .25
+        on_release: Factory.TickerSearchPopup().open()
+    Button:
+        text: "Portfolio"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": 0.3}
+        color: 176, 224, 230, .85
+        background_color: 176, 224, 230, .85
+        on_release: Factory.Portfolio().open()
+    Button:
+        text: "My Watch List"
+        size_hint: 0.1, 0.05
+        pos_hint: {"top":.95, "right": 0.2}
+        color: 176, 224, 230, .85
+        background_color: 176, 224, 230, .85
+        on_release: Factory.WatchListPopup().open()
     CustomizedTextInput:
         id: input_field
-        hint_text: 'Search Here'
+        hint_text: 'Enter Stock Ticker Here'
         pos_hint: {"top": .95, "right": 1}
         size_hint: 0.2, 0.05
         multiline: False
@@ -150,51 +190,73 @@
     Button:
         id: live_price
         text: root.get_dict_value_as_string("Live Price: ", "regularMarketPrice")
-        size_hint: 0.30, 0.05
-        pos_hint: {"top": 0.35, "right":.55}
-        #background_normal: ''
+        size_hint: 0.15, 0.05
+        pos_hint: {"top": 0.35, "right":0.40}
+        # background_normal: ''
         color: 1, 1, .3, 1
-        #background_color: .2,.2,.2, 1
+        # background_color: .2,.2,.2, 1
+    Button:
+        id: add_to_my_watch_list
+        text: "Add to My Watch List"
+        size_hint: 0.15, 0.05
+        pos_hint: {"top": 0.35, "right": 0.55}
+        on_press: root.add_to_my_watchlist()
     Button:
         id: mkt_cap
         text: root.get_dict_value_as_string("Market Cap: ", "marketCap")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.1375}
+        on_press: root.setCurrentTooltip("Market Cap")
+        on_release: Factory.TooltipPopup().open()
     Button:
         id: div_rate
         text: root.get_dict_value_as_string("Dividend Rate: ", "dividendRate")
         size_hint:0.1375, 0.075
-        pos_hint: {"top": 0.225, "right":.1375}   
+        pos_hint: {"top": 0.225, "right":.1375}
+        on_press: root.setCurrentTooltip("Dividend Rate")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: fiftytwo_wk_high
         text: root.get_dict_value_as_string("52 Week High: ", "fiftyTwoWeekHigh")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.275}
+        on_press: root.setCurrentTooltip("52 Week High")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: fiftytwo_wk_low
         text: root.get_dict_value_as_string("52 WeekLow: ", "fiftyTwoWeekLow")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.225, "right":.275}
+        on_press: root.setCurrentTooltip("52 Week Low")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: trailing_pe
         text:root.get_dict_value_as_string("Trailing P/E: ", "trailingPE")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.4125}
+        on_press: root.setCurrentTooltip("Trailing P/E")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: trailing_eps
         text: root.get_dict_value_as_string("Trailing EPS: ", "trailingEps")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.225, "right":.4125}
+        on_press: root.setCurrentTooltip("Trailing EPS")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: beta
         text: root.get_dict_value_as_string("Beta: ", "beta")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.55}
+        on_press: root.setCurrentTooltip("Beta")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: earn_growth
         text: root.get_dict_value_as_string( "Earnings Growth: ", "earningsQuarterlyGrowth")
         size_hint:0.1375, 0.075
-        pos_hint: {"top": 0.225, "right":.55}      
+        pos_hint: {"top": 0.225, "right":.55}
+        on_press: root.setCurrentTooltip("Earnings Growth")
+        on_release: Factory.TooltipPopup().open()  
 
 <CustomPopup@Popup>:
     title: 'Login'
@@ -242,20 +304,106 @@
         Button:
             text: 'Login'
             font_size: 24
-            #on_press: root.login_btn(login.text, password.text)
-            on_press: popup.dismiss()
+            on_press: root.login_btn(login.text, password.text)
             
         Button:
             text: 'Cancel'
             font_size: 24
-            #on_press: root.cancel_btn()
             on_press: popup.dismiss()
 
         Button:
             text: 'Create Username'
             font_size: 24
-            #on_press: root.create_name(login.text, password.text)
-            on_press: popup.dismiss()
+            on_press: Factory.CreatePopup().open()
+
+            
+<CreatePopup@Popup>:
+    title: 'Login'
+    id: create
+    auto_dismiss: False
+
+    BoxLayout
+        id: login_layout
+        orientation: 'vertical'
+        padding: [10,20,10,20]
+        spacing: 10
+
+        Label:
+            text: 'Create Username'
+            font_size: 28
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: 'Username'
+                font_size: 18
+                halign: 'left'
+                text_size: root.width-20, 20
+
+            TextInput:
+                id: createname
+                multiline:False
+                font_size: 16
+
+        BoxLayout:
+            orientation: 'vertical'
+
+            Label:
+                text: 'Email'
+                font_size: 18
+                halign: 'left'
+                text_size: root.width-20, 20
+
+            TextInput:
+                id: email
+                multiline:False
+                font_size: 16        
+
+        BoxLayout:
+            orientation: 'vertical'
+            Label:
+                text: 'Password'
+                halign: 'left'
+                font_size: 18
+                text_size: root.width-20, 20
+
+            TextInput:
+                id: createpass
+                multiline:False
+                font_size: 16
+
+        Button:
+            text: 'Create'
+            font_size: 24
+            on_press: root.create_login(createname.text, email.text, createpass.text)
+            
+        Button:
+            text: 'Cancel'
+            font_size: 24
+            on_press: create.dismiss()
+
+<Portfolio@Popup>:
+    title: "Portfolio"
+
+    GridLayout:
+        cols: 4
+        Button:
+            text:"Stock Name"
+        Button:
+            text:"Shares"
+        Button:
+            text:"Current Price"
+        Button:
+            text:"Total Change"
+        Label:
+            text:"Apple"
+        Label:
+            text:"20"
+        Label:
+            text:"150"
+        Label:
+            text:"3000"
 
 <MyPopup@Popup>:
     title: "Error Occured!"
@@ -268,6 +416,37 @@
         text: "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later."
         on_release: test_popup.dismiss() 
         on_press: root.dismiss()
+
+<TooltipPopup@Popup>:
+    title: "MNMS Financial Dictionary"
+    id: tooltip_popup
+    auto_dismiss: False
+    size_hint: 0.4, 0.4
+    
+    BoxLayout:
+        id: tooltip_boxlayout
+        orientation: 'vertical'
+
+        Label:
+            text: root.getCurrentTooltip()
+            font_size: 28
+            halign: 'center'
+            size_hint: (1, .1)
+
+        Label:
+            text: root.getTooltipDefinition()
+            halign: 'center'
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
+            size_hint: (1, .75)
+ 
+        Button:
+            text: "Return"
+            font_size: 16
+            size_hint: (.3, .1)
+            halign: 'left'
+            on_press: root.dismiss()
 
 <Purchase@Popup>:
     title: "Stocks Purchased"
@@ -292,3 +471,99 @@
         text: "Stocks Successfully Sold"
         on_release: s_popup.dismiss() 
         on_press: root.dismiss()
+
+<TickerSearchPopup@Popup>:
+    title: 'Search for a Ticker'
+    id: ticker_search_popup
+    auto_dismiss: False
+    size_hint: 0.6, 0.6
+
+    BoxLayout:
+        id: ticker_search_layout
+        orientation: 'vertical'
+        padding: [10,20,10,20]
+        spacing: 10
+
+        Label:
+            text: 'Enter a Company Name or Partial Ticker'
+            font_size: 18
+            halign: 'center'
+            size_hint: (1, .1)
+            text_size: root.width-20, 20
+
+        TextInput:
+            id: ticker_search
+            multiline:False
+            font_size: 18
+            size_hint: (1, .10)
+            on_text_validate: root.enter_stock_search_string()
+            halign: 'center'
+        SearchResultRV:
+            id: searched_stocks_rv
+            size_hint: (1, .65)
+            halign: 'center'
+
+        Button:
+            text: 'Cancel'
+            font_size: 24
+            size_hint: (.3, .1)
+            halign: 'center'
+            #on_press: root.login_btn(login.text, password.text)
+            on_press: ticker_search_popup.dismiss()
+
+<SearchResultRV>: 
+    viewclass: 'SearchRVButton' 
+    orientation: "vertical"
+    spacing: 40
+    padding:10, 10
+    space_x: self.size[0]/3
+  
+    RecycleBoxLayout: 
+        color:(0, 0.7, 0.4, 0.8) 
+        default_size: None, dp(56) 
+        default_size_hint: 1, None 
+        size_hint_y: None
+        height: self.minimum_height 
+        orientation: 'vertical'
+
+<WatchListPopup@Popup>:
+    title: 'My Watch List'
+    id: wl_popup
+    auto_dismiss: False
+
+    BoxLayout
+        id: watch_list_layout
+        orientation: 'vertical'
+        padding: [10,20,10,20]
+        spacing: 10
+
+        Label:
+            text: 'My Watch List'
+            font_size: 18
+            halign: 'center'
+            size_hint: (1, .1)
+            text_size: root.width-20, 20
+        WatchListBox:
+            id: watch_list_box
+            size_hint: (1, .65)
+            halign: 'center'
+        Button:
+            text: 'Cancel'
+            font_size: 24
+            size_hint: (.3, .1)
+            on_press: wl_popup.dismiss()
+
+<WatchListBox>: 
+    viewclass: "WLButton" 
+    orientation: "vertical"
+    spacing: 40
+    padding:10, 10
+    space_x: self.size[0]/3
+
+    RecycleBoxLayout: 
+        color:(0, 0.7, 0.4, 0.8) 
+        default_size: None, dp(100) 
+        default_size_hint: 1, None
+        size_hint_y: None
+        height: self.minimum_height 
+        orientation: 'vertical'

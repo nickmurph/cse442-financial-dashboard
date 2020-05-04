@@ -19,7 +19,6 @@
         pos_hint: {"top": 0.90, "right": 0.55}
         allow_stretch: True
         keep_ratio: False
-
     Label:
         text: "Financial Information"
         id: financials_text
@@ -125,13 +124,14 @@
         on_press: root.go_to_link2()
         border: 5,5,5,5
     Button:
+        id: login_button
         text: "Log In"
         size_hint: 0.1, 0.05
         pos_hint: {"top":.95}
-        color: 0, 0, 0, .85
+        color: 0, 0, 0, .8
         background_normal: ''
         background_color: 0, 1, 0, .85
-        on_release: Factory.CustomPopup().open()
+        on_release: root.loginOrLogOut()
     Button:
         id: Welcome
         text: root.welcome()
@@ -205,41 +205,57 @@
         text: root.get_dict_value_as_string("Market Cap: ", "marketCap")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.1375}
+        on_press: root.setCurrentTooltip("Market Cap")
+        on_release: Factory.TooltipPopup().open()
     Button:
         id: div_rate
         text: root.get_dict_value_as_string("Dividend Rate: ", "dividendRate")
         size_hint:0.1375, 0.075
-        pos_hint: {"top": 0.225, "right":.1375}   
+        pos_hint: {"top": 0.225, "right":.1375}
+        on_press: root.tooltipClicked("Dividend Rate")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: fiftytwo_wk_high
         text: root.get_dict_value_as_string("52 Week High: ", "fiftyTwoWeekHigh")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.275}
+        on_press: root.tooltipClicked("52 Week High")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: fiftytwo_wk_low
         text: root.get_dict_value_as_string("52 WeekLow: ", "fiftyTwoWeekLow")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.225, "right":.275}
+        on_press: root.tooltipClicked("52 Week Low")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: trailing_pe
         text:root.get_dict_value_as_string("Trailing P/E: ", "trailingPE")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.4125}
+        on_press: root.tooltipClicked("Trailing P/E")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: trailing_eps
         text: root.get_dict_value_as_string("Trailing EPS: ", "trailingEps")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.225, "right":.4125}
+        on_press: root.tooltipClicked("Trailing EPS")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: beta
         text: root.get_dict_value_as_string("Beta: ", "beta")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.3, "right":.55}
+        on_press: root.tooltipClicked("Beta")
+        on_release: Factory.TooltipPopup().open()  
     Button:
         id: earn_growth
         text: root.get_dict_value_as_string( "Earnings Growth: ", "earningsQuarterlyGrowth")
         size_hint:0.1375, 0.075
         pos_hint: {"top": 0.225, "right":.55}
+        on_press: root.tooltipClicked("Earnings Growth")
+        on_release: Factory.TooltipPopup().open()  
 
 <CustomPopup@Popup>:
     title: 'Login'
@@ -298,6 +314,7 @@
             text: 'Create Username'
             font_size: 24
             on_press: Factory.CreatePopup().open()
+
             
 <CreatePopup@Popup>:
     title: 'Login'
@@ -418,6 +435,37 @@
         on_release: test_popup.dismiss() 
         on_press: root.dismiss()
 
+<TooltipPopup@Popup>:
+    title: "MNMS Financial Dictionary"
+    id: tooltip_popup
+    auto_dismiss: False
+    size_hint: 0.4, 0.4
+    
+    BoxLayout:
+        id: tooltip_boxlayout
+        orientation: 'vertical'
+
+        Label:
+            text: root.getCurrentTooltip()
+            font_size: 28
+            halign: 'center'
+            size_hint: (1, .1)
+
+        Label:
+            text: root.getTooltipDefinition()
+            halign: 'center'
+            size_hint_y: None
+            text_size: self.width, None
+            height: self.texture_size[1]
+            size_hint: (1, .75)
+ 
+        Button:
+            text: "Return"
+            font_size: 16
+            size_hint: (.3, .1)
+            halign: 'left'
+            on_press: root.dismiss()
+
 <Purchase@Popup>:
     title: "Stocks Purchased"
     id: p_popup
@@ -446,6 +494,7 @@
     title: 'Search for a Ticker'
     id: ticker_search_popup
     auto_dismiss: False
+    size_hint: 0.6, 0.6
 
     BoxLayout:
         id: ticker_search_layout
@@ -463,7 +512,7 @@
         TextInput:
             id: ticker_search
             multiline:False
-            font_size: 36
+            font_size: 18
             size_hint: (1, .10)
             on_text_validate: root.enter_stock_search_string()
             halign: 'center'

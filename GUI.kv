@@ -78,6 +78,7 @@
         background_normal: ''
         background_color: .3, 1, .4, .85
         on_press: root.buyCallback()
+        on_press: root.update_dataframe_buy()
     Button:
         text: "SELL STOCK"
         size_hint: 0.125, 0.05
@@ -86,6 +87,7 @@
         background_normal: ''
         background_color: 1, .3, .4, .85
         on_press: root.sellCallback()
+        on_press: root.update_dataframe_sell()
     TextInput:
         id: Purchase
         pos_hint: {"top": 0.40, "right": .125}
@@ -146,6 +148,7 @@
         color: 176, 224, 230, .85
         background_color: 176, 224, 230, .85
         on_release: Factory.Portfolio().open()
+        on_release: root.open_portfolio()
     CustomizedTextInput:
         id: input_field
         hint_text: 'Search Here'
@@ -265,28 +268,6 @@
             #on_press: root.create_name(login.text, password.text)
             on_press: popup.dismiss()
 
-<Portfolio@Popup>:
-    title: "Portfolio"
-
-    GridLayout:
-        cols: 4
-        Button:
-            text:"Stock Name"
-        Button:
-            text:"Shares"
-        Button:
-            text:"Current Price"
-        Button:
-            text:"Total Change"
-        Label:
-            text:"Apple"
-        Label:
-            text:"20"
-        Label:
-            text:"150"
-        Label:
-            text:"3000"
-
 <MyPopup@Popup>:
     title: "Error Occured!"
     id: test_popup
@@ -322,3 +303,53 @@
         text: "Stocks Successfully Sold"
         on_release: s_popup.dismiss() 
         on_press: root.dismiss()
+
+<Portfolio@Popup>:
+    title: 'Portfolio'
+    id: portfolio_popup
+    auto_dismiss: False
+
+    BoxLayout:
+        id: portfolio_layout
+        orientation: 'horizontal'
+        padding: [10,20,10,20]
+        spacing: 10
+
+        Button:
+            text:'Go back to Main'
+            font_size: 24
+            size_hint:(.2,.075)
+            halign: 'center'
+            on_press: portfolio_popup.dismiss()
+        
+        PortfolioRV:
+            id: portfolio_rv
+            halign: 'center'
+
+# <Table>:
+#     orientation: 'horizontal'
+#     label1_text: 'label1'
+#     label2_text: 'label2'
+#     label3_text: 'label3'
+#     label4_text: 'label4'
+#     Label:
+#         id: R1
+#         text: root.label1_text
+#     Label:
+#         id: R2
+#         text: root.label2_text
+#     Label:
+#         id: R3
+#         text: root.label3_text
+#     Label:
+#         id: R4
+#         text: root.label4_text
+
+# <PortfolioRV>: 
+#     viewclass: 'Table'
+#     RecycleBoxLayout:
+#         default_size: None, dp(20)
+#         default_size_hint: 1, None
+#         size_hint_y: None
+#         height: self.minimum_height
+#         orientation: 'vertical'

@@ -1,11 +1,12 @@
 import kivy
 import time
+import numpy
+import pandas as pd
+
 from kivy.app import App
 from kivy.uix.widget import Widget
 from kivy.uix.popup import Popup
-# from kivy.uix.screenmanager import ScreenManager, Screen
 from kivy.uix.floatlayout import FloatLayout
-# from kivy.uix.boxlayout import BoxLayout
 from kivy.uix.recycleview import RecycleView
 from kivy.core.window import Window
 from kivy.config import Config
@@ -25,6 +26,11 @@ from stocks_and_charts import get_live_price_first
 from stocks_and_charts import get_current_stock
 from stocks_and_charts import get_stock_info_dict
 from finance_num_formatting import format_financial_number
+
+from portfolio_database import add_to_database
+from portfolio_database import update_to_amount
+from portfolio_database import create_dataframe
+from portfolio_database import get_dataframe_to_numpy
 
 from news_links import get_news
 
@@ -52,6 +58,15 @@ Window.minimum_width = (screen_res_width/1.5)
 news_articles = []
 current_stock_name = "Microsoft"
 news_articles = get_news(current_stock_name)
+
+username = 'ming'
+
+try:
+    portfolio_dataframe = pd.read_pickle("./portfolio_dataframe_" + username + ".pkl")
+except FileNotFoundError:
+    portfolio_dataframe = create_dataframe(username)
+
+print(portfolio_dataframe)
 
 def get_window_size():
    return Window.size
@@ -85,6 +100,18 @@ class Launch(FloatLayout):
         else:
             x = "Please enter a valid integer value."
         messagebox.showinfo("Successfully Purchased", x)
+
+    def update_dataframe_buy(self):
+        buy_amount = self.ids.Purchase.text
+        current_stock_ticker = current_stock.ticker
+        current_stock_name = get_stock_name(current_stock.ticker)
+        update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock_ticker),int(buy_amount),10)
+
+    def update_dataframe_sell(self):
+        sell_amount = self.ids.Sell.text
+        current_stock_ticker = current_stock.ticker
+        current_stock_name = get_stock_name(current_stock.ticker)
+        update_to_amount(username,portfolio_dataframe,str(current_stock_name),str(current_stock_ticker),int(sell_amount) * -1, 10)
 
     def sellCallback(self):
         entered_number = self.ids.Sell.text
@@ -147,7 +174,6 @@ class Launch(FloatLayout):
             #Factory.MyPopup().open()
             messagebox.showinfo("Error Occured!", "Error in retrieving this stock's information from YFinance! \n\n Make sure it is a valid stock ticker or try again later.")
 
-
     def change_current_stock(self):
             entered_text = self.ids.input_field.text
             global current_stock_name
@@ -175,12 +201,10 @@ class Launch(FloatLayout):
         except:
             self.ids.link2.text = "No recent news articles found for this stock."
 
-
     def get_article_title(self, article_num):
         tempStr = news_articles[article_num].title
         tempStr = tempStr[:100] 
         return tempStr
-
 
     def go_to_link0(self):
         try:
@@ -214,7 +238,6 @@ class Launch(FloatLayout):
             tempData = format_financial_number(tempData)
         return tempStr + str(tempData)
 
-
     def update_all_quick_info(self):
         self.ids.live_price.text = Launch.get_dict_value_as_string(self, "Live Price: ", "regularMarketPrice")
         self.ids.mkt_cap.text = Launch.get_dict_value_as_string(self, "Market Cap: ", "marketCap")
@@ -226,18 +249,10 @@ class Launch(FloatLayout):
         self.ids.beta.text = Launch.get_dict_value_as_string(self, "Beta: ", "beta")
         self.ids.earn_growth.text = Launch.get_dict_value_as_string(self, "Earnings Growth: ", "earningsQuarterlyGrowth")
 
-
-#RecycleView not working well with screenmanager currently, need to work on showing actual data.
-# class PortfolioScreen(RecycleView):
-#     def __init__(self, **kwargs): 
-#         super(PortfolioScreen, self).__init__(**kwargs) 
-#         self.data = [{'label1_text': str(x['R1']), 'label2_text': str(x['R2']), 'label3_text': str(x['R3']), 'label4_text': str(x['R4'])} for x in stocks]
-
 class GUIApp(App):
     def build(self):
         self.title = 'MnMs Finance Tool'
         return Launch()
-
 
 class CustomizedTextInput(TextInput):
    
@@ -252,6 +267,11 @@ class CustomizedTextInput(TextInput):
       else:
          return super(CustomizedTextInput, self).insert_text(substring, from_undo=from_undo)
    '''
+
+# class PortfolioRV(RecycleView):
+#     def __init__(self, **kwargs): 
+#         super(PortfolioRV, self).__init__(**kwargs) 
+#         self.data = [{'label1_text': str(x[i][0]), 'label2_text': str(x[i][1]), 'label3_text': str(x[i][2]), 'label4_text': str(x[i][3])} for i in range(len(x))]
 
 if __name__ == '__main__':
     GUIApp().run()

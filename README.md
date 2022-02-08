@@ -1,3 +1,7 @@
+# Semester-long project for CSE442, Software Engineering, University at Buffalo
+
+
+
 # Welcome to Our Project
 To install and run our project here are the steps required:
 1. Copy/clone the contents of this repository

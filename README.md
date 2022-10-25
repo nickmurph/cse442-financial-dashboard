@@ -20,8 +20,8 @@ Features:
 <br/>
 <br/>
 <br/>
-To install and run the MNMS Dashboard:
-1. Copy/clone the contents of this repository
-2. Run the GUIwithkv.py file
-3. It will open up MnMs Financial Tool App
+To install and run the MNMS Dashboard:<br/>
+1. Copy/clone the contents of this repository<br/>
+2. Run the GUIwithkv.py file<br/>
+3. It will open up MnMs Financial Tool App<br/>
 4. Please note CSE442 students were graded on their ability to use modern collaboration tools to set complex goals and meet them in allocated sprints, not on the aesthetic beauty of their python desktop app :)

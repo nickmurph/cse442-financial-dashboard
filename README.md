@@ -15,8 +15,9 @@ Features:
 - If the ticker symbol isn't known, a searching system is provided that allows users to enter partial tickers or company names
 - Rudimentary ability to "buy" and "sell" shares in the currently loaded stock
 - Watchlist function, where users can add stocks to their watchlist and then view those in a separate tab
-- Skeleton GUI/logic for user profiles, includes logging in and out, username, etc. More was beyond the scope of the sprints allocated in CSE442
+- user profiles, includes logging in and out, username, etc. Validation and Encryption of user data. More planned but was beyond the scope of the sprints allocated
 - Skeleton GUI/logic for a portfolio that tracks the user's stocks (ticker, # of shares, value, etc). Also beyond the scope of the sprints allocated in CSE442
+- Note: pickling and CSVs used in some cases due to a CSE442 policy restricting the use of databases to campus-hosted servers
 
 <br/>
 <br/>

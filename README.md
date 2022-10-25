@@ -13,9 +13,11 @@ Features:
 - to the right of the stock chart is a more in-depth finance/accounting sheet with data reported by the company as of the last quarterly earnings report
 - Users can use the toolbar in the top-right to quickly enter a valid ticker symbol and load that stock
 - If the ticker symbol isn't known, a searching system is provided that allows users to enter partial tickers or company names
+- Rudimentary ability to "buy" and "sell" shares in the currently loaded stock
 - Watchlist function, where users can add stocks to their watchlist and then view those in a separate tab
-- Skeleton GUI/logic for a portfolio that tracks the user's stocks (ticker, # of shares, value, etc). Beyond the scope of the sprints allocated in CSE442
-- Skeleton GUI/logic for user profiles, including logging in and out, username, etc. Also beyond the scope of the sprints allocated in CSE442
+- Skeleton GUI/logic for user profiles, includes logging in and out, username, etc. More was beyond the scope of the sprints allocated in CSE442
+- Skeleton GUI/logic for a portfolio that tracks the user's stocks (ticker, # of shares, value, etc). Also beyond the scope of the sprints allocated in CSE442
+
 <br/>
 <br/>
 <br/>

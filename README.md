@@ -16,11 +16,12 @@ Features:
 - Watchlist function, where users can add stocks to their watchlist and then view those in a separate tab
 - Skeleton GUI/logic for a portfolio that tracks the user's stocks (ticker, # of shares, value, etc). Beyond the scope of the sprints allocated in CSE442
 - Skeleton GUI/logic for user profiles, including logging in and out, username, etc. Also beyond the scope of the sprints allocated in CSE442
-
-
-
-
-To install and run our project here are the steps required:
+.
+.
+.
+.
+.
+To install and run the MNMS Dashboard:
 1. Copy/clone the contents of this repository
 2. Run the GUIwithkv.py file
 3. It will open up MnMs Financial Tool App

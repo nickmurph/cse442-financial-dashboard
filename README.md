@@ -2,7 +2,8 @@
 Our 4-developer team used industry standard collaborative methods such as Agile sprinting, user stories, a Kanban board, issue tracking and frequent deployments. 
 CSE442: Software Engineering focused specifically on these tools for working as part of a modern software development team.
 
-Technologies used: Python, Kivy GUI framework, CSV, Kanban, Yahoo! Stocks API
+Languages used: Python, KVlang
+Technologies used: Kivy GUI framework, Pandas, CSV, Kanban, Various APIs (Yahoo! Stocks, NewsAPI, etc) 
 
 Features:
 - Stock charts generated for multiple timeframes (1 day, 1 month, 6 months, 1 year, 5 years, Maximum) with buttons to let the user switch between them

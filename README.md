@@ -23,7 +23,6 @@ Features:
 <br/>
 <br/>
 <br/>
-<br/>
 
 ![The MNMS Stock Dashboard](/demo.png)
 *CSE442 students were graded solely on their ability to use modern collaboration tools to set complex goals re: functionality and meet them in allocated sprints, not on the aesthetic beauty of their python desktop app :)

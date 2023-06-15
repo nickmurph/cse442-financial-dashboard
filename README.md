@@ -1,4 +1,4 @@
-# A stock trading dashboard written in Python, the semester long group project for CSE442: Software Engineering 
+# A stock trading dashboard written in Python, the semester-long group project for CSE442: Software Engineering 
 Our 4-developer team used industry standard collaborative methods such as Agile sprinting, user stories, a Kanban board, issue tracking and frequent deployments. 
 CSE442: Software Engineering focused specifically on these tools for working as part of a modern software development team.
 
@@ -25,7 +25,7 @@ Features:
 <br/>
 
 ![The MNMS Stock Dashboard](/demo.png)
-*CSE442 students were graded solely on their ability to use modern collaboration tools to set complex goals re: functionality and meet them in allocated sprints, not on the aesthetic beauty of their python desktop app :)
+*CSE442 students were graded solely on their ability to use modern collaboration tools to set complex goals re: functionality and meet them in allocated sprints, not on the aesthetic beauty of their python desktop app
 
 
 <br/>

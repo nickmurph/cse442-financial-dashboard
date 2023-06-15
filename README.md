@@ -2,10 +2,10 @@
 Our 4-developer team used industry standard collaborative methods such as Agile sprinting, user stories, a Kanban board, issue tracking and frequent deployments. 
 CSE442: Software Engineering focused specifically on these tools for working as part of a modern software development team.
 
-Languages used: Python, KVlang
-Technologies used: Kivy GUI framework, Pandas, CSV, Kanban, Various APIs (Yahoo! Stocks, NewsAPI, etc) 
+Languages: Python, KVlang <br>
+Technologies: Kivy GUI framework, Pandas, CSV, Kanban, Various APIs (Yahoo! Stocks, NewsAPI, etc) 
 
-Features:
+## Features:
 - Stock charts generated for multiple timeframes (1 day, 1 month, 6 months, 1 year, 5 years, Maximum) with buttons to let the user switch between them
 - Live price of the stock updated periodically during trading hours
 - For each stock queried, user dashboard displays financial metrics: Market Cap, Dividend Rate, 52 Week High/Low, Trailing P/E, Trailing EPS, Beta, and Earnings Growth
@@ -36,5 +36,5 @@ Features:
 To install and run the MNMS Dashboard:<br/>
 1. Copy/clone the contents of this repository<br/>
 2. Run the GUIwithkv.py file<br/>
-3. It will open up MnMs Financial Tool App<br/>
+3. MnMs Financial Dashboard will launch<br/>
 
